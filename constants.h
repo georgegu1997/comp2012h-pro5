@@ -1,0 +1,12 @@
+//For Register Project#5 of COMP 2012H @HKUST
+//Auther: GU Qiao
+//All rights reserved
+//
+//constants.h
+//This file is used to stored the constants for the Project
+#ifndef CONSTANTS_H
+#define CONSTANTS_H
+
+const int STUDENT_ID_LENGTH = 8;
+
+#denif
