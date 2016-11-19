@@ -46,12 +46,10 @@ public:
   //insert an element according to alphebet order
   void insert();
 
+  //these method are of the same functions as the name suggested, copied from the project 3
   void addLast(const T&);
-
   void addFirst(const T&);
-
   T removeFirst();
-
   T removeLast();
 
   class iterator {

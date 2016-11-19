@@ -8,5 +8,8 @@
 #define CONSTANTS_H
 
 const int STUDENT_ID_LENGTH = 8;
+const int STUDENT_ID_M = 29;
+const int STUDENT_ID_B = 10;
 
-#denif
+
+#endif
