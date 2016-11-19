@@ -43,8 +43,9 @@ public:
   //return the number of the data stored
   int size();
 
-  //insert an element according to alphebet order
-  void insert();
+  //insert an element according the comparator <
+  //return -1 if there already exists the data
+  int insertInOrder(const T&);
 
   //these method are of the same functions as the name suggested, copied from the project 3
   void addLast(const T&);
@@ -66,7 +67,7 @@ public:
 
     iterator operator++();
     iterator operator++(int);
-    T operator*();
+    T& operator*();
     bool operator==(const iterator& itr);
     bool operator!=(const iterator& itr);
     iterator operator+(int);
@@ -75,6 +76,7 @@ public:
     void insert(const T&);
     //delete the node at the current position, the ones after it will be pushed front.
     void deleteCurrent();
+    bool isDummy();
   private:
     Node* node;
     DoublyLinkedList<T>* list;
@@ -195,6 +197,27 @@ bool DoublyLinkedList<T>::isEmpty() {
 }
 
 template <typename T>
+int DoublyLinkedList<T>::insertInOrder(const T& item) {
+  if(isEmpty()) {
+    addFirst(item);
+    return 0;
+  }else{
+    iterator itr;
+    for (itr = begin(); ; itr++) {
+      if(itr == end()) {
+        addLast(item);
+        return 0;
+      }else if(*(itr) == item) {
+        return -1;
+      }else if(*(itr) > item) {
+        itr.insert(item);
+        return 0;
+      }
+    }
+  }
+}
+
+template <typename T>
 int DoublyLinkedList<T>::size() {
   return _size;
 }
@@ -234,6 +257,11 @@ void DoublyLinkedList<T>::iterator::deleteCurrent() {
 }
 
 template <typename T>
+bool DoublyLinkedList<T>::iterator::isDummy() {
+  return node == list->head;
+}
+
+template <typename T>
 typename DoublyLinkedList<T>::iterator& DoublyLinkedList<T>::iterator::operator=(const iterator& itr) {
   this->node = itr.node;
   this->list = itr.list;
@@ -254,7 +282,7 @@ typename DoublyLinkedList<T>::iterator DoublyLinkedList<T>::iterator::operator++
 }
 
 template <typename T>
-T DoublyLinkedList<T>::iterator::operator*() {
+T& DoublyLinkedList<T>::iterator::operator*() {
   return node->data;
 }
 

@@ -8,6 +8,22 @@
 #include "constants.h"
 using namespace std;
 
+int Hash(Student& stu){
+  return StudentIDHash(stu.getStudentID());
+}
+
+int Hash(Course& cou) {
+  return CourseCodeHash(cou.getCourseCode())
+}
+
+int Hash(Student& stu, string& ID) {
+  return StudentIDHash(ID);
+}
+
+int Hash(Course& cou, string& code) {
+  return CourseCodeHash(code);
+}
+
 //The hash function for student ID
 //Assume the input obeys the rules, No check.
 int StudentIDHash(string ID) {

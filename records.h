@@ -32,6 +32,12 @@ public:
   int setStudentName(const string&);
   int setYear(int);
   int setGender(int);
+
+  //The comparator used to sort the records in the linked list
+  bool operator<(const Student&);
+  bool operator>(const Student&);
+  bool operator==(const Student&);
+  bool operator==(const string& id);
 };
 
 class Course {
@@ -54,6 +60,11 @@ public:
   int setCourseCode(const string&);
   int setCourseName(const string&);
   int setCredit(const int);
+
+  bool operator<(const Course& cou);
+  bool operator>(const Course& cou);
+  bool operator==(const Course& cou);
+  bool operator==(const string& code);
 };
 
 class CourseSelection {
@@ -79,6 +90,9 @@ public:
   int setStudent(const Student&);
   int setStudent(const Student*);
   int setExamMark(const int);
+
+  bool operator<(const CourseSelection&);
+  bool operator>(const CourseSelection&);
 };
 
 #endif

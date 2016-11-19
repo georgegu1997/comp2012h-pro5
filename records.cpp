@@ -76,6 +76,22 @@ int Student::setGender(int gender) {
   }
 }
 
+bool Student::operator<(const Student& stu) {
+  return strcmp(this->getStudentID(), stu.getStudentID()) < 0;
+}
+
+bool Student::operator>(const Student& stu) {
+  return strcmp(StudentID, stu.getStudentID()) > 0;
+}
+
+bool Student::operator==(const Student& stu) {
+  return strcmp(StudentID, stu.getStudentID()) == 0;
+}
+
+bool Student::operator==(const string& id) {
+  return StudentID == id;
+}
+
 Course::Course() {};
 
 Course::~Course() {};
@@ -132,6 +148,22 @@ int Course::setCredit(const int c) {
   }
 }
 
+bool Course::operator<(const Course* cou) {
+  return strcmp(this->getCourseCode(), cou.getCourseCode()) < 0;
+}
+
+bool Course::operator>(const Course* cou) {
+  return strcmp(CourseCode, cou.getCourseCode()) > 0;
+}
+
+bool Course::operator==(const Course* cou) {
+  return strcmp(CourseCode, cou.getCourseCode()) == 0;
+}
+
+bool Course::operator==(const string& code) {
+  return CourseCode == code;
+}
+
 CourseSelection::CourseSelection()
 :stu(0), cou(0), EsamMark(UNASSIGNED) {}
 
@@ -186,11 +218,31 @@ int CourseSelection::setStudent(const Student* s) {
   return 0;
 }
 
-int setExamMark(const int e) {
+int CourseSelection::setExamMark(const int e) {
   if(e < EXAMMARK_MIN || e > EXAMMARK_MAX) {
     return -1;
   }else {
     ExamMark = e;
     return 0;
   }
+}
+
+bool CourseSelection::operator<(const CourseSelection& cs) {
+  if(*stu == *(cs.getStudent())) {
+    return *cou < *(cs.getCourse());
+  }else {
+    return *stu < *(cs.getStudent());
+  }
+}
+
+bool CourseSelection::operator>(const CourseSelection& cs) {
+  if(*stu == *(cs.getStudent())) {
+    return *cou > *(cs.getCourse());
+  }else {
+    return *stu > *(cs.getStudent());
+  }
+}
+
+bool CourseSelection::operator==(const CourseSelection& cs) {
+  return *cou == *(cs.getCourse()) && *stu < *(cs.getStudent());
 }

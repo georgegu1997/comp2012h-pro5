@@ -8,11 +8,11 @@ int main() {
   DoublyLinkedList<int> intdll;
   cout<<intdll.isEmpty()<<endl;
   intdll.addLast(1);
-  intdll.addLast(2);
-  intdll.addLast(3);
-  intdll.addLast(4);
-  intdll.addFirst(-1);
-  intdll.addFirst(-2);
+  intdll.addLast(6);
+  intdll.addLast(9);
+  intdll.addLast(11);
+  intdll.addFirst(-6);
+  intdll.addFirst(-8);
   intdll.removeLast();
   intdll.removeFirst();
   cout<<intdll.size()<<endl;
@@ -29,6 +29,14 @@ int main() {
       int_itr.insert(0);
     }
   }
+  cout<<intdll.insertInOrder(3);
+  cout<<intdll.insertInOrder(10);
+  cout<<intdll.insertInOrder(-1);
+  cout<<intdll.insertInOrder(5);
+  cout<<intdll.insertInOrder(5);
+  cout<<intdll.insertInOrder(6);
+  cout<<endl;
+
   cout<<intdll.size()<<endl;
   for (int_itr=intdll.begin(); int_itr != intdll.end(); int_itr++) {
     cout <<"element: "<< *int_itr <<endl;
