@@ -11,8 +11,22 @@ const int STUDENT_ID_LENGTH = 8;
 const int STUDENT_ID_M = 29;
 const int STUDENT_ID_B = 10;
 
+const int STUDENT_NAME_MAX = 32;
+const int STUDENT_NAME_MIN = 1;
+
+const int COURSECODE_MAX = 9;
+const int COURSECODE_MIN = 7;
 const int COURSECODE_M = 17;
 const int COURSECODE_B = 36;
+
+const int COURSENAME_MIN = 1;
+const int COURSENAME_MAX = 50;
+
+const int CREDIT_MIN = 0;
+const int CREDIT_MAX = 5;
+
+const int MALE = 0;
+const int FEMALE = 1;
 
 
 #endif
