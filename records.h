@@ -45,7 +45,7 @@ public:
 
   Course(const Course&);
 
-  Course& operator(const Course&);
+  Course& operator=(const Course&);
 
   int getCredit() const;
   string getCourseCode() const;
@@ -66,7 +66,19 @@ public:
   ~CourseSelection();
 
   CourseSelection(Student* , Course* , int);
+  CourseSelection& operator=(CourseSelection&);
 
-}
+  string getStudentID() const;
+  string getCourseCode() const;
+  int getExamMark() const;
+  Student* getStudent() const;
+  Course* getCourse() const;
+
+  int setCourse(const Course&);
+  int setCourse(const Course*);
+  int setStudent(const Student&);
+  int setStudent(const Student*);
+  int setExamMark(const int);
+};
 
 #endif

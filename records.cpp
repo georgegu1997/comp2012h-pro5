@@ -131,3 +131,66 @@ int Course::setCredit(const int c) {
     return 0;
   }
 }
+
+CourseSelection::CourseSelection()
+:stu(0), cou(0), EsamMark(UNASSIGNED) {}
+
+CourseSelection::~CourseSelection() {}
+
+CourseSelection::CourseSelection(Student* s, Course* c, int m)
+:stu(s), cou(c), EsamMark(m) {}
+
+CourseSelection& CourseSelection::operator=(CourseSelection& cs) {
+  setCourse(cs.getCourse());
+  setStudent(cs.getStudent());
+  setExamMark(cs.getExamMark());
+}
+
+string CourseSelection::getStudentID() const {
+  return stu->getStudentID();
+}
+
+string CourseSelection::getCourseCode() const {
+  return cou->getCourseCode();
+}
+
+int CourseSelection::getExamMark() const {
+  return ExamMark;
+}
+
+Student* CourseSelection::getStudent() const {
+  return stu;
+}
+
+Course* CourseSelection::getCourse() const {
+  return cou;
+}
+
+int CourseSelection::setCourse(const Course& c) {
+  cou = *c;
+  return 0;
+}
+
+int CourseSelection::setCourse(const Course* c) {
+  cou = c;
+  return 0;
+}
+
+int CourseSelection::setStudent(const Student& s) {
+  stu = *s;
+  return 0;
+}
+
+int CourseSelection::setStudent(const Student* s) {
+  stu = s;
+  return 0;
+}
+
+int setExamMark(const int e) {
+  if(e < EXAMMARK_MIN || e > EXAMMARK_MAX) {
+    return -1;
+  }else {
+    ExamMark = e;
+    return 0;
+  }
+}
