@@ -6,6 +6,11 @@
 //This file is the container template implemented by doublly-linked list.
 #ifndef DOUBLYLINKEDLIST_H
 #define DOUBLYLINKEDLIST_H
+#include <stdexcept>
+#include <iostream>
+using std::cout;
+using std::endl;
+using std::runtime_error;
 
 template <typename T>
 class DoublyLinkedList {
@@ -27,7 +32,7 @@ public:
   DoublyLinkedList(const DoublyLinkedList<T>&);
 
   //assignment constructor
-  DoublyLinkedList<T> operator=(const DoublyLinkedList<T>&);
+  DoublyLinkedList<T>& operator=(const DoublyLinkedList<T>&);
 
   //destructor
   ~DoublyLinkedList();
@@ -41,33 +46,40 @@ public:
   //insert an element according to alphebet order
   void insert();
 
-  //delete the input element if there exists
-  void delete(const T&);
-
   void addLast(const T&);
 
   void addFirst(const T&);
 
-  void removeFirst(const T&);
+  T removeFirst();
 
-  void removeLast(const T&);
+  T removeLast();
 
   class iterator {
     friend class DoublyLinkedList<T>;
   public:
     //default constructor
     iterator();
+
+    //copy constructor
     iterator(const iterator& itr);
 
     //the assign constructor
-    iterator operator=(const iterator& itr);
+    iterator& operator=(const iterator& itr);
 
-    void operator++();
+    iterator operator++();
+    iterator operator++(int);
     T operator*();
     bool operator==(const iterator& itr);
-    bool operator==(const iterator& itr);
+    bool operator!=(const iterator& itr);
+    iterator operator+(int);
+    iterator operator-(int);
+    //insert a node at the current position, the ones after it will be pushed back.
+    void insert(const T&);
+    //delete the node at the current position, the ones after it will be pushed front.
+    void deleteCurrent();
   private:
     Node* node;
+    DoublyLinkedList<T>* list;
   };
 
   //return the head->next node of the list as a iterator
@@ -79,7 +91,7 @@ public:
 
 template <typename T>
 DoublyLinkedList<T>::DoublyLinkedList()
-:_head(new NOde), _size(0) {
+:head(new Node), _size(0) {
   head->next = head;
   head->prev = head;
 }
@@ -128,7 +140,7 @@ DoublyLinkedList<T>::~DoublyLinkedList() {
 }
 
 template <typename T>
-void DoublyLinkedList<T>::addFirst(T item) {
+void DoublyLinkedList<T>::addFirst(const T& item) {
   Node *new_node = new Node;
   new_node->data = item;
   new_node->next = head->next;
@@ -139,7 +151,7 @@ void DoublyLinkedList<T>::addFirst(T item) {
 }
 
 template <typename T>
-void DoublyLinkedList<T>::addLast(T item) {
+void DoublyLinkedList<T>::addLast(const T& item) {
   Node *new_node = new Node;
   new_node->data = item;
   new_node->prev = head->prev;
@@ -180,26 +192,92 @@ T DoublyLinkedList<T>::removeLast() {
 }
 
 template <typename T>
-DoublyLinkedList<T>::iterator::iterator() {};
+bool DoublyLinkedList<T>::isEmpty() {
+  return _size == 0;
+}
+
+template <typename T>
+int DoublyLinkedList<T>::size() {
+  return _size;
+}
+
+template <typename T>
+DoublyLinkedList<T>::iterator::iterator()
+:node(0), list(0) {};
 
 template <typename T>
 DoublyLinkedList<T>::iterator::iterator(const iterator& itr) {
   this->node = itr.node;
+  this->list = itr.list;
 }
 
 template <typename T>
-DoublyLinkedList<T>::iterator::operator=(const iterator& itr) {
+void DoublyLinkedList<T>::iterator::insert(const T& item) {
+  Node* new_node = new Node;
+  new_node->data = item;
+  new_node->next = this->node;
+  new_node->prev = this->node->prev;
+  this->node->prev = new_node;
+  new_node->prev->next = new_node;
+  (list->_size)++;
+}
+
+template <typename T>
+void DoublyLinkedList<T>::iterator::deleteCurrent() {
+  if(this->node == list->head) {
+    throw runtime_error("Try to delete the dummy head node.");
+  }
+  Node* current_node = this->node;
+  this->node->next->prev = this->node->prev;
+  this->node->prev->next = this->node->next;
+  delete current_node;
+  current_node = 0;
+  (list->_size)--;
+}
+
+template <typename T>
+typename DoublyLinkedList<T>::iterator& DoublyLinkedList<T>::iterator::operator=(const iterator& itr) {
   this->node = itr.node;
+  this->list = itr.list;
 }
 
 template <typename T>
-void DoublyLinkedList<T>::iterator::operator++() {
-  node = node->next;
+typename DoublyLinkedList<T>::iterator DoublyLinkedList<T>::iterator::operator++() {
+  this->node = this->node->next;
+  return (*this);
+}
+
+template <typename T>
+typename DoublyLinkedList<T>::iterator DoublyLinkedList<T>::iterator::operator++(int) {
+  iterator itr;
+  itr.node = this->node;
+  this->node = this->node->next;
+  return itr;
 }
 
 template <typename T>
 T DoublyLinkedList<T>::iterator::operator*() {
   return node->data;
+}
+
+template <typename T>
+typename DoublyLinkedList<T>::iterator DoublyLinkedList<T>::iterator::operator+(int num) {
+  int i;
+  iterator itr = *this;
+  for (i = 0; i < num; i++) {
+    itr.node = itr.node->next;
+  }
+  return itr;
+}
+
+template <typename T>
+typename DoublyLinkedList<T>::iterator DoublyLinkedList<T>::iterator::operator-(int num) {
+  int i;
+  iterator itr = *this;
+  for (i = 0; i < num; i++) {
+    itr.node = itr.node->prev;
+  }
+  return itr;
 }
 
 template <typename T>
@@ -209,13 +287,23 @@ bool DoublyLinkedList<T>::iterator::operator==(const iterator& itr) {
 
 template <typename T>
 bool DoublyLinkedList<T>::iterator::operator!=(const iterator& itr) {
-  return !(*this == itr);
+  return this->node != itr.node;
 }
 
 template <typename T>
 typename DoublyLinkedList<T>::iterator DoublyLinkedList<T>::begin() {
   iterator itr;
   itr.node = this->head->next;
+  itr.list = this;
+  return itr;
+}
+
+template <typename T>
+typename DoublyLinkedList<T>::iterator DoublyLinkedList<T>::end() {
+  iterator itr;
+  itr.node = this->head;
+  itr.list = this;
+  return itr;
 }
 
 #endif
