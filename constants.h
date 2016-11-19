@@ -11,5 +11,8 @@ const int STUDENT_ID_LENGTH = 8;
 const int STUDENT_ID_M = 29;
 const int STUDENT_ID_B = 10;
 
+const int COURSECODE_M = 17;
+const int COURSECODE_B = 36;
+
 
 #endif

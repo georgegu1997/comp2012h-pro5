@@ -4,10 +4,12 @@
 #include <string>
 #include <iostream>
 #include <sstream>
+#include <stdexcept>
 #include "constants.h"
 using namespace std;
 
 //The hash function for student ID
+//Assume the input obeys the rules, No check.
 int StudentIDHash(string ID) {
   int i;
   int sum = 0;
@@ -30,9 +32,34 @@ int StudentIDHash(string ID) {
   return sum % STUDENT_ID_M;
 }
 
-//the hash function for course code
-int CourseCodeHash(string code) {
+//return the corresponding values of different characrer in the course code
+//The input should be upper letter A - Z or number 0 - 9.
+int getCodeNumber(char a) {
+  int number = (int) a;
+  if (number >= 48 && number <= 57) {
+    return (number - 48);
+  }else if(number >= 65 && number <= 90) {
+    return (number - 65 + 1 + 10);
+  }else {
+    throw runtime_error("wrong input in the course code!");
+  }
+}
 
+//the hash function for course code
+//Assume the input obey rhe rules. No check
+int CourseCodeHash(string code) {
+  int length = code.length();
+  int i;
+  int sum = 0;
+  for (i = 0; i < length; i++) {
+    int product = getCodeNumber(code[i]);
+    int j;
+    for(j = 0; j < i; j++) {
+      product = (product * COURSECODE_B) % COURSECODE_M;
+    }
+    sum += product;
+  }
+  return sum % COURSECODE_M;
 }
 
 #endif
