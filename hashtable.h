@@ -9,14 +9,16 @@
 #include "doublylinkedlist.h"
 #include "utility.h"
 #include <iostream>
+#include <vector>
 using std::cout;
 using std::endl;
+using std::vector;
 
 template <typename T>
 class HashTable {
 private:
   int m, _size;
-  DoublyLinkedList<T> arr[];
+  vector<DoublyLinkedList<T> > arr;
   T sample;
   typename DoublyLinkedList<T>::iterator searchAndAccessIterator(const string&);
 public:
@@ -24,7 +26,7 @@ public:
   ~HashTable();
   HashTable(int);
 
-  int insert(T&);
+  int insert(const T&);
   int deleteByKey(const string&);
   T* searchAndAccessPointer(const string&);
   void clear();
@@ -39,24 +41,17 @@ template <typename T>
 HashTable<T>::HashTable() {}
 
 template <typename T>
-HashTable<T>::~HashTable() {
-  int i;
-  for (i = 0; i != m; i++) {
-    arr[i].~DoublyLinkedList();
-  }
-}
+HashTable<T>::~HashTable() {}
 
 template <typename T>
 HashTable<T>::HashTable(int m) {
   this->m = m;
-  DoublyLinkedList<T> arr[m];
+  arr.resize(m);
 }
 
 template <typename T>
-int HashTable<T>::insert(T& item) {
+int HashTable<T>::insert(const T& item) {
   int index = Hash(item);
-  cout<<"index: "<<index<<endl;
-  cout<<"number fo buckets: "<<m<<endl;
   int result = arr[index].insertInOrder(item);
   if(result = 0) {
     _size++;
@@ -145,8 +140,9 @@ void HashTable<T>::printAll() {
     DoublyLinkedList<T>* list = &(arr[i]);
     typename DoublyLinkedList<T>::iterator itr;
     for(itr = list->begin(); itr != list->end(); itr++) {
-      (*itr).print();
+      print(*itr);
     }
+    cout<<endl;
   }
 }
 

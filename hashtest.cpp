@@ -4,6 +4,19 @@
 #include "constants.h"
 
 int main() {
+  /*
+  HashTable<int> table(10);
+  cout<<table.insert(2);
+  cout<<table.insert(2610);
+  cout<<table.insert(3520);
+  cout<<table.insert(3598);
+  cout<<table.insert(567);
+  cout<<table.insert(123);
+  cout<<table.insert(25);
+  cout<<table.insert(698);
+
+  table.printAll();
+  */
   Student stu1, stu2, stu3, stu4, stu5;
   int i;
   i = stu1.setStudentID("02000001");
@@ -49,5 +62,5 @@ int main() {
   if(i<0) cout<<"insert fail 3"<<endl;
   cout<<"insertion 3 finished"<<endl;
 
-  //table.printAll();
+  table.printAll();
 }

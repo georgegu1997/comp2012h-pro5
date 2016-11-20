@@ -7,6 +7,12 @@ using std::endl;
 int main() {
   DoublyLinkedList<int> intdll;
   cout<<intdll.isEmpty()<<endl;
+  cout<<intdll.insertInOrder(20);
+  intdll.removeLast();
+  cout<<intdll.insertInOrder(10);
+  intdll.removeLast();
+  cout<<intdll.insertInOrder(30);
+  intdll.removeLast();
   intdll.addLast(1);
   intdll.addLast(6);
   intdll.addLast(9);

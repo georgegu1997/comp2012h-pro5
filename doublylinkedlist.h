@@ -138,6 +138,7 @@ DoublyLinkedList<T>::~DoublyLinkedList() {
   while (current!=head) {
     current = current->next;
     delete current->prev;
+    //cout<<"deleting "<<current->prev<<endl;
   }
   delete current;
 }

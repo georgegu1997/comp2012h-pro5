@@ -6,6 +6,7 @@
 #include <sstream>
 #include <stdexcept>
 #include "constants.h"
+#include "records.h"
 using namespace std;
 
 //The hash function for student ID
@@ -62,11 +63,11 @@ int CourseCodeHash(string code) {
   return sum % COURSECODE_M;
 }
 
-int Hash(Student& stu){
+int Hash(const Student& stu){
   return StudentIDHash(stu.getStudentID());
 }
 
-int Hash(Course& cou) {
+int Hash(const Course& cou) {
   return CourseCodeHash(cou.getCourseCode());
 }
 
@@ -78,4 +79,23 @@ int Hash(Course& cou, string& code) {
   return CourseCodeHash(code);
 }
 
+int Hash(int number) {
+  return number % 10;
+}
+
+void print(Course& cou) {
+  cou.print();
+}
+
+void print(Student& stu) {
+  stu.print();
+}
+
+void print(CourseSelection& cs) {
+  cs.print();
+}
+
+void print(int number) {
+  cout<<number<<" ";
+}
 #endif
