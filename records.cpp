@@ -2,8 +2,11 @@
 
 #include "records.h"
 #include <regex>
+#include <iostream>
 using std::regex;
 using std::regex_match;
+using std::cout;
+using std::endl;
 
 Student::Student() {};
 
@@ -69,7 +72,7 @@ int Student::setYear(int year) {
 }
 
 int Student::setGender(int gender) {
-  if (gender != MALE && gender != FAMALE) {
+  if (gender != MALE && gender != FEMALE) {
     return -1;
   }else {
     Gender = gender;
@@ -77,19 +80,31 @@ int Student::setGender(int gender) {
 }
 
 bool Student::operator<(const Student& stu) {
-  return strcmp(this->getStudentID(), stu.getStudentID()) < 0;
+  return StudentID < stu.getStudentID();
 }
 
 bool Student::operator>(const Student& stu) {
-  return strcmp(StudentID, stu.getStudentID()) > 0;
+  return StudentID > stu.getStudentID();
 }
 
 bool Student::operator==(const Student& stu) {
-  return strcmp(StudentID, stu.getStudentID()) == 0;
+  return StudentID == stu.getStudentID();
 }
 
 bool Student::operator==(const string& id) {
   return StudentID == id;
+}
+
+void Student::print() {
+  cout<<"Student ID: "<<StudentID<<endl;
+  cout<<"Student Name: "<<StudentName<<endl;
+  cout<<"Student Year: " <<Year<<endl;
+  cout<<"Student Gender: ";
+  if(Gender == MALE) {
+    cout<<"Male"<<endl;
+  }else {
+    cout<<"Female"<<endl;
+  }
 }
 
 Course::Course() {};
@@ -148,29 +163,35 @@ int Course::setCredit(const int c) {
   }
 }
 
-bool Course::operator<(const Course* cou) {
-  return strcmp(this->getCourseCode(), cou.getCourseCode()) < 0;
+bool Course::operator<(const Course& cou) {
+  return CourseCode < cou.getCourseCode();
 }
 
-bool Course::operator>(const Course* cou) {
-  return strcmp(CourseCode, cou.getCourseCode()) > 0;
+bool Course::operator>(const Course& cou) {
+  return CourseCode > cou.getCourseCode();
 }
 
-bool Course::operator==(const Course* cou) {
-  return strcmp(CourseCode, cou.getCourseCode()) == 0;
+bool Course::operator==(const Course& cou) {
+  return CourseCode == cou.getCourseCode();
 }
 
 bool Course::operator==(const string& code) {
   return CourseCode == code;
 }
 
+void Course::print() {
+  cout<<"Course Code: "<< CourseCode << endl;
+  cout<<"Course Name: "<< CourseName << endl;
+  cout<<"Course Credit: "<< Credit << endl;
+}
+
 CourseSelection::CourseSelection()
-:stu(0), cou(0), EsamMark(UNASSIGNED) {}
+:stu(0), cou(0), ExamMark(UNASSIGNED) {}
 
 CourseSelection::~CourseSelection() {}
 
 CourseSelection::CourseSelection(Student* s, Course* c, int m)
-:stu(s), cou(c), EsamMark(m) {}
+:stu(s), cou(c), ExamMark(m) {}
 
 CourseSelection& CourseSelection::operator=(CourseSelection& cs) {
   setCourse(cs.getCourse());
@@ -198,22 +219,22 @@ Course* CourseSelection::getCourse() const {
   return cou;
 }
 
-int CourseSelection::setCourse(const Course& c) {
-  cou = *c;
+int CourseSelection::setCourse(Course& c) {
+  cou = &c;
   return 0;
 }
 
-int CourseSelection::setCourse(const Course* c) {
+int CourseSelection::setCourse(Course* c) {
   cou = c;
   return 0;
 }
 
-int CourseSelection::setStudent(const Student& s) {
-  stu = *s;
+int CourseSelection::setStudent(Student& s) {
+  stu = &s;
   return 0;
 }
 
-int CourseSelection::setStudent(const Student* s) {
+int CourseSelection::setStudent(Student* s) {
   stu = s;
   return 0;
 }
@@ -245,4 +266,10 @@ bool CourseSelection::operator>(const CourseSelection& cs) {
 
 bool CourseSelection::operator==(const CourseSelection& cs) {
   return *cou == *(cs.getCourse()) && *stu < *(cs.getStudent());
+}
+
+void CourseSelection::print() {
+  cout<<"Student ID: " <<getStudentID()<<endl;
+  cout<<"CourseCode: " <<getCourseCode() <<endl;
+  cout<<"Exam Mark: " <<ExamMark <<endl;
 }

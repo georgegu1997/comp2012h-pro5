@@ -38,6 +38,9 @@ public:
   bool operator>(const Student&);
   bool operator==(const Student&);
   bool operator==(const string& id);
+
+  //function for debugging
+  void print();
 };
 
 class Course {
@@ -65,6 +68,8 @@ public:
   bool operator>(const Course& cou);
   bool operator==(const Course& cou);
   bool operator==(const string& code);
+
+  void print();
 };
 
 class CourseSelection {
@@ -85,14 +90,17 @@ public:
   Student* getStudent() const;
   Course* getCourse() const;
 
-  int setCourse(const Course&);
-  int setCourse(const Course*);
-  int setStudent(const Student&);
-  int setStudent(const Student*);
+  int setCourse(Course&);
+  int setCourse(Course*);
+  int setStudent(Student&);
+  int setStudent(Student*);
   int setExamMark(const int);
 
   bool operator<(const CourseSelection&);
   bool operator>(const CourseSelection&);
+  bool operator==(const CourseSelection&);
+
+  void print();
 };
 
 #endif

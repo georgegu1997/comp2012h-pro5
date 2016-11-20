@@ -53,6 +53,8 @@ public:
   T removeFirst();
   T removeLast();
 
+  void clear();
+
   class iterator {
     friend class DoublyLinkedList<T>;
   public:
@@ -76,6 +78,7 @@ public:
     void insert(const T&);
     //delete the node at the current position, the ones after it will be pushed front.
     void deleteCurrent();
+    //return true if the iterator is at haed position.
     bool isDummy();
   private:
     Node* node;
@@ -189,6 +192,13 @@ T DoublyLinkedList<T>::removeLast() {
   delete last;
   _size--;
   return last_data;
+}
+
+template <typename T>
+void DoublyLinkedList<T>::clear() {
+  while(!isEmpty()) {
+    removeFirst();
+  }
 }
 
 template <typename T>
