@@ -37,10 +37,55 @@ Course* queryCourse(const string& code) {
   return courses.searchAndAccessPointer(code);
 }
 
-CourseSelection* querySelectionByID(const string& id) {
-  return id_indexes.searchAndAccessPointer(id)->selection;
+CourseSelection* querySelection(const string& id, const string& code) {
+  SelectionTable::iterator itr;
+  for(itr = selections.begin(); itr != selections.end(); itr ++) {
+    if(itr->getStudentID() == id && itr->getCourseCode() == code) {
+      return &(*itr);
+    }
+  }
+  return NULL;
 }
 
-CourseSelection* querySelectionByCode(const string& code) {
-  return code_indexes.searchAndAccessPointer(code)->selection;
+int modifyStudent(Student* _data, const Student& _new) {
+  if (_new.isValid()) {
+    *(_data) = _new;
+    return 0;
+  }else {
+    return -1;
+  }
+}
+
+int modifyCourse(Course* _data, const Course& _new) {
+  if(_new.isValid()) {
+    *(_data) = _new;
+    return 0
+  }else {
+    return -1;
+  }
+}
+
+int modifySelection(CourseSelection* _data, const CourseSelection& _new) {
+  if(_new.isValid()) {
+    *(_data) = _new;
+    return 0;
+  }else {
+    return -1;
+  }
+}
+
+void StudentsHTML() {
+  reportAllStudents(students.returnAll());
+}
+
+void CoursesHTML() {
+  reportAllCourses(courses.returnAll());
+}
+
+void StudentsOfCourseHTML(Course* cou) {
+
+}
+
+void CoursesOfStudentHTML(Student* stu) {
+
 }

@@ -31,10 +31,16 @@ public:
 
   Student* queryStudent(const string& id);
   Course* queryCourse(const stirng& code);
-  CourseSelection* querySelectionByID(const string& id);
-  CourseSelection* querySelectionByCode(const string& code);
+  CourseSelection* querySelection(const string& id, const string& code);
 
-  
+  int modifyStudent(Student*, const Student&);
+  int modifyCourse(Course*, const Course&);
+  int modifySelection(CourseSelection*, const CourseSelection&);
+
+  void StudentsHTML();
+  void CoursesHTML();
+  void StudentsOfCourseHTML(Course* cou);
+  void CoursesOfStudentHTML(Student* stu);
 };
 
 

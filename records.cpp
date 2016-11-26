@@ -68,6 +68,7 @@ int Student::setYear(int year) {
     return -1;
   }else {
     Year = year;
+    return 0;
   }
 }
 
@@ -93,6 +94,26 @@ bool Student::operator==(const Student& stu) {
 
 bool Student::operator==(const string& id) {
   return StudentID == id;
+}
+
+bool Student::isValid() const {
+  return isValidID(StudentID) && isValidName(StudentName) && isValidYear(Year) && isValidGender(Gender);
+}
+
+bool Student::isValidID(const string& id) {
+  return id.size() == STUDENT_ID_LENGTH && regex_match(id, regex("[0-9]+"));
+}
+
+bool Student::isValidName(const string& name) {
+  return name.size() <= STUDENT_NAME_MAX && name.size() >= STUDENT_NAME_MIN;
+}
+
+bool Student::isValidYear(const int& year) {
+  return year <= YEAR_MAX && year >= YEAR_MIN;
+}
+
+bool Student::isValidGender(const int& gender) {
+  return gender == MALE || gender == FEMALE;
 }
 
 void Student::print() {
@@ -179,6 +200,22 @@ bool Course::operator==(const string& code) {
   return CourseCode == code;
 }
 
+bool Course::isValid() const {
+  return isValidCode(CourseCode) && isValidName(CourseName) && isValidCredit(Credit);
+}
+
+bool Course::isValidCode(const stirng& code) {
+  return code.length() <= COURSECODE_MAX && code.length() <= COURSECODE_MIN && regex_match(code, regex("[[:upper:]]{4}[[:d:]]+[[:upper:]]?"));
+}
+
+bool Course::isValidName(const string& name) {
+  return name.length() <= COURSENAME_MAX && name.length() >= COURSENAME_MIN;
+}
+
+bool Course::isValidCredit(const string& credit) {
+  return credit <= CREDIT_MAX && credit >= CREDIT_MIN;
+}
+
 void Course::print() {
   cout<<"Course Code: "<< CourseCode << endl;
   cout<<"Course Name: "<< CourseName << endl;
@@ -186,7 +223,7 @@ void Course::print() {
 }
 
 CourseSelection::CourseSelection()
-:stu(0), cou(0), ExamMark(UNASSIGNED) {}
+:stu(NULL), cou(NULL), ExamMark(UNASSIGNED) {}
 
 CourseSelection::~CourseSelection() {}
 
@@ -248,6 +285,11 @@ int CourseSelection::setExamMark(const int e) {
   }
 }
 
+bool CourseSelection::isValid() const {
+  if (stu == NULL || cou == NULL) return false;
+  return isValidExammark(ExamMark) && stu->isValid() && cou->isValid();
+}
+
 bool CourseSelection::operator<(const CourseSelection& cs) {
   if(*stu == *(cs.getStudent())) {
     return *cou < *(cs.getCourse());
@@ -266,6 +308,10 @@ bool CourseSelection::operator>(const CourseSelection& cs) {
 
 bool CourseSelection::operator==(const CourseSelection& cs) {
   return *cou == *(cs.getCourse()) && *stu < *(cs.getStudent());
+}
+
+bool CourseSelection::isValidExammark(const int& mark) {
+  return mark <= EXAMMARK_MAX && mark >= EXAMMARK_MIN;
 }
 
 void CourseSelection::print() {

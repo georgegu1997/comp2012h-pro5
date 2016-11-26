@@ -39,6 +39,14 @@ public:
   bool operator==(const Student&);
   bool operator==(const string& id);
 
+  bool isValid() const;
+
+  //the static functions to judge whether the input is valid or not
+  static bool isValidID(const string&);
+  static bool isValidName(const String&);
+  static bool isValidYear(const int&);
+  static bool isValidGender(const int&);
+
   //function for debugging
   void print();
 };
@@ -69,6 +77,12 @@ public:
   bool operator==(const Course& cou);
   bool operator==(const string& code);
 
+  bool isValid() const;
+
+  static bool isValidCode(const string&);
+  static bool isValidName(const string&);
+  static bool isValidCredit(const int&);
+
   void print();
 };
 
@@ -96,9 +110,13 @@ public:
   int setStudent(Student*);
   int setExamMark(const int);
 
+  bool isValid() const;
+
   bool operator<(const CourseSelection&);
   bool operator>(const CourseSelection&);
   bool operator==(const CourseSelection&);
+
+  static bool isValidExammark(const int&);
 
   void print();
 };
