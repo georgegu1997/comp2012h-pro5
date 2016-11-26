@@ -47,6 +47,8 @@ public:
   //return -1 if there already exists the data
   int insertInOrder(const T&);
 
+  T* insertAndReturnAddress (const T&);
+
   //these method are of the same functions as the name suggested, copied from the project 3
   void addLast(const T&);
   void addFirst(const T&);
@@ -224,6 +226,22 @@ int DoublyLinkedList<T>::insertInOrder(const T& item) {
         itr.insert(item);
         return 0;
       }
+    }
+  }
+}
+
+template <typename T>
+T* DoublyLinkedList<T>::insertAndReturnAddress(const T& item) {
+  iterator itr;
+  for (itr = begin(); ; itr++) {
+    if(itr == end()) {
+      addLast(item);
+      return &(*itr);
+    }else if(*(itr) == item) {
+      return NULL;
+    }else if(*(itr) > item) {
+      itr.insert(item);
+      return &(*itr);
     }
   }
 }

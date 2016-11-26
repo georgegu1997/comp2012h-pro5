@@ -63,24 +63,76 @@ int CourseCodeHash(string code) {
   return sum % COURSECODE_M;
 }
 
-int Hash(const Student& stu){
+int StudentHash(const Student& stu) {
   return StudentIDHash(stu.getStudentID());
 }
 
-int Hash(const Course& cou) {
+int CourseHash(const Course& cou) {
   return CourseCodeHash(cou.getCourseCode());
 }
 
-int Hash(Student& stu, string& ID) {
-  return StudentIDHash(ID);
+struct IndexByID {
+  string StudentID;
+  CourseSelection* selection;
+
+  IndexByID(CourseSelection* cs = NULL, stirng id = "00000000")
+  :selection(cs), StudentID(id) {
+    if(selection != NULL && StudentID == "00000000") {
+      StudentID = selection->getStudentID();
+    }
+  }
+
+  bool operator>(const IndexByID& index) {
+    return StudentID > index.StudentID;
+  }
+
+  bool operator==(const IndexByID& index) {
+    return StudentID == index.StudentID;
+  }
+
+  bool operator<(const IndexByID& index) {
+    return StudentID < index.StudentID;
+  }
+
+  CourseSelection& operator*() {
+    return *(selection);
+  }
+};
+
+int IndexIDHash(const IndexByID& index) {
+  return StudentIDHash(index.StudentID);
 }
 
-int Hash(Course& cou, string& code) {
-  return CourseCodeHash(code);
-}
+struct IndexByCode {
+  string CourseCode;
+  CourseSelection* selection;
 
-int Hash(int number) {
-  return number % 10;
+  IndexByCode(CourseSelection* cs = NULL, string code = "COMP1000")
+  :selection(cs), CourseCode(code) {
+    if(selection != NULL && CourseCode == "COMP1000") {
+      CourseCode = selection->getCourseCode();
+    }
+  }
+
+  bool operator>(const IndexByCode& index) {
+    return CourseCode > index.CourseCode;
+  }
+
+  bool operator==(const IndexByCode& index) {
+    return CourseCode == index.CourseCode;
+  }
+
+  bool operator<(const IndexByCode& index) {
+    return CourseCode < index.CourseCode;
+  }
+
+  CourseSelection& operator*() {
+    return *(selection);
+  }
+};
+
+int IndexCodeHash(const IndexByCode& index) {
+  return CourseCodeHash(index.CourseCode);
 }
 
 void print(Course& cou) {

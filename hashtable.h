@@ -9,22 +9,24 @@
 #include "doublylinkedlist.h"
 #include "utility.h"
 #include <iostream>
-#include <vector>
 using std::cout;
 using std::endl;
 using std::vector;
 
 template <typename T>
 class HashTable {
+  typedef int (*) (const T&) HashFunction;
+
 private:
   int m, _size;
-  vector<DoublyLinkedList<T> > arr;
+  DoublyLinkedList<T>* arr;
   T sample;
   typename DoublyLinkedList<T>::iterator searchAndAccessIterator(const string&);
+  HashFunction Hash;
 public:
   HashTable();
   ~HashTable();
-  HashTable(int);
+  HashTable(int, HashFunction);
 
   int insert(const T&);
   int deleteByKey(const string&);
@@ -38,16 +40,17 @@ public:
 };
 
 template <typename T>
-HashTable<T>::HashTable() {}
+HashTable<T>::HashTable()
+:arr(new DoublyLinkedList<T>[1]), m(1), _size(0) {}
 
 template <typename T>
-HashTable<T>::~HashTable() {}
-
-template <typename T>
-HashTable<T>::HashTable(int m) {
-  this->m = m;
-  arr.resize(m);
+HashTable<T>::~HashTable() {
+  delete[] arr;
 }
+
+template <typename T>
+HashTable<T>::HashTable(int bucketsnumber, HashFunction funcPtr)
+:m(bucketsnumber), arr(new DoublyLinkedList<T>[bucketsnumber]), _size(0); Hash(funcPtr) {}
 
 template <typename T>
 int HashTable<T>::insert(const T& item) {
@@ -77,7 +80,7 @@ T* HashTable<T>::searchAndAccessPointer(const string& str) {
   typename DoublyLinkedList<T>::iterator itr;
   itr = searchAndAccessIterator(str);
   if(itr.isDummy()) {
-    return -1;
+    return NULL;
   }else {
     return &(*itr);
   }
