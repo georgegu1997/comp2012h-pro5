@@ -13,6 +13,7 @@ using std::getline;
 RegisterManager rm;
 
 string StudentIDInput() {
+  cout<<"Enter the student ID: ";
   string str;
   getline(cin,str);
   while(!Student::isValidID(str)) {
@@ -61,6 +62,7 @@ int StudentGenderInput() {
 }
 
 string CourseCodeInput() {
+  cout<<"Enter the course code: ";
   string str;
   getline(cin, str);
   while(!Course::isValidCode(str)) {
@@ -138,7 +140,6 @@ void StudentManagement() {
   if(current_option == 1) {
     Student stu;
 
-    cout<<"Enter the student ID: ";
     stu.setStudentID(StudentIDInput());
 
     cout<<"Enter the student name: ";
@@ -151,16 +152,15 @@ void StudentManagement() {
     stu.setGender(StudentGenderInput());
 
     if(stu.isValid() && rm.add(stu) == 0){
-      cout<<"Creation of student record successful";
+      cout<<"Creation of student record successful"<<endl<<endl;
     }else {
-      cout<<"Creation of student record fail";
+      cout<<"Creation of student record fail"<<endl<<endl;
     }
 
     endOfLoop();
 
   }else if(current_option == 2) {
     string str;
-    cout<<"Enter the student ID: ";
     Student* stuPtr = rm.queryStudent(StudentIDInput());
 
     if(stuPtr == NULL) {
@@ -171,7 +171,7 @@ void StudentManagement() {
       stuPtr->setStudentName(StudentNameInput());
 
       int number;
-      cout<<"Enter the student year["<<stuPtr->getStudentName()<<"]: ";
+      cout<<"Enter the student year["<<stuPtr->getYear()<<"]: ";
       stuPtr->setYear(StudentYearInput());
 
       string gender;
@@ -239,7 +239,6 @@ void CourseManagement() {
   if(current_option == 1) {
     Course cou;
 
-    cout<<"Enter the course code: ";
     cou.setCourseCode(CourseCodeInput());
 
     cout<<"Enter the course name: ";
@@ -351,7 +350,6 @@ void CourseRegistration() {
     endOfLoop();
 
   }else if(current_option == 2) {
-
     Student* stu = rm.queryStudent(StudentIDInput());
     if(stu == NULL) {
       cout<<"Student not exist"<<endl<<endl;
@@ -377,6 +375,7 @@ void CourseRegistration() {
     return;
 
   }else if(current_option == 3) {
+
     Student* stu = rm.queryStudent(StudentIDInput());
     if(stu == NULL) {
       cout<<"Student not exist"<<endl<<endl;
@@ -395,7 +394,9 @@ void CourseRegistration() {
     if(cs == NULL) {
       cout<<"Registration record not exist"<<endl<<endl;
     }else {
-      cout<<"Enter the exam mark ["<<cs->getExamMark()<<"]: ";
+      char mark_str[16];
+      sprintf(mark_str, "%d", cs->getExamMark());
+      cout<<"Enter the exam mark ["<< ((cs->getExamMark()==UNASSIGNED)? "UNASSIGNED": mark_str) <<"]: ";
       cs->setExamMark(ExamMarkInput());
       cout<<"Modification of the exam mark successful"<<endl<<endl;
     }
@@ -403,6 +404,7 @@ void CourseRegistration() {
     endOfLoop();
     return;
   }else if(current_option == 4) {
+
     Student* stu = rm.queryStudent(StudentIDInput());
     if(stu == NULL) {
       cout<<"Student not exist"<<endl<<endl;

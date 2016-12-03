@@ -6,7 +6,7 @@
 #include <string>
 #include <cstdio>
 
-void reportAllCourses(DoublyLinkedList<Course>& courses) {
+void reportAllCourses(DoublyLinkedList<Course> courses) {
   FILE* fout = fopen("Courses.html","w");
   fprintf(fout,
     "<HTML>\n"
@@ -49,7 +49,7 @@ void reportAllCourses(DoublyLinkedList<Course>& courses) {
   fclose(fout);
 }
 
-void reportAllStudents(DoublyLinkedList<Student>& students) {
+void reportAllStudents(DoublyLinkedList<Student> students) {
   FILE* fout = fopen("Students.html","w");
   fprintf(fout,
     "<HTML>\n"
@@ -95,9 +95,9 @@ void reportAllStudents(DoublyLinkedList<Student>& students) {
   fclose(fout);
 }
 
-void reportStudentsOfCourse(const Course& course, DoublyLinkedList<CourseSelection>& selections) {
+void reportStudentsOfCourse(const Course& course, DoublyLinkedList<CourseSelection> selections) {
   char name[50];
-  sprintf(name, "%s\n", course.getCourseCode().c_str());
+  sprintf(name, "%s.html", course.getCourseCode().c_str());
 
   FILE* fout = fopen(name,"w");
   fprintf(fout,
@@ -115,39 +115,40 @@ void reportStudentsOfCourse(const Course& course, DoublyLinkedList<CourseSelecti
     "<P>\n"
     "<TABLE cellSpacing=1 cellPadding=1 border=1>\n\n",
     course.getCourseName().c_str(), course.getCourseCode().c_str());
-  fprintf(fout,
-    "<TB>\n"
-    "<TD>Student ID</TD>\n"
-    "<TD>Studnet Name</TD>\n"
-    "<TD>Year</TD>\n"
-    "<TD>Gender</TD>\n"
-    "<TD>Exma Mark</TD>\n"
-    "</TR>\n\n");
-
-  DoublyLinkedList<CourseSelection>::iterator itr;
-
-  for(itr = selections.begin(); itr != selections.end(); itr++) {
-    char mark_str[16];
-    sprintf(mark_str, "%d", itr->getExamMark());
-
-    fprintf(fout,
-      "<TR>\n"
-      "<TD>%s</TD>\n"
-      "<TD>%s</TD>\n"
-      "<TD>%d</TD>\n"
-      "<TD>%s</TD>\n"
-      "<TD>%s</TD>\n"
-      "</TD>\n\n",
-      itr->getStudent()->getStudentID().c_str(),
-      itr->getStudent()->getStudentName().c_str(),
-      itr->getStudent()->getYear(),
-      itr->getStudent()->getGender()==MALE? "Male":"Female",
-      itr->getExamMark()==UNASSIGNED? "N/A": mark_str);
-  }
 
   if(selections.begin() == selections.end()) {
     fprintf(fout,
-      "<p>No course taken</p>");
+      "<p>No Student took this course.</p>");
+  }else {
+    fprintf(fout,
+      "<TB>\n"
+      "<TD>Student ID</TD>\n"
+      "<TD>Studnet Name</TD>\n"
+      "<TD>Year</TD>\n"
+      "<TD>Gender</TD>\n"
+      "<TD>Exma Mark</TD>\n"
+      "</TR>\n\n");
+
+    DoublyLinkedList<CourseSelection>::iterator itr;
+
+    for(itr = selections.begin(); itr != selections.end(); itr++) {
+      char mark_str[16];
+      sprintf(mark_str, "%d", itr->getExamMark());
+
+      fprintf(fout,
+        "<TR>\n"
+        "<TD>%s</TD>\n"
+        "<TD>%s</TD>\n"
+        "<TD>%d</TD>\n"
+        "<TD>%s</TD>\n"
+        "<TD>%s</TD>\n"
+        "</TD>\n\n",
+        itr->getStudent()->getStudentID().c_str(),
+        itr->getStudent()->getStudentName().c_str(),
+        itr->getStudent()->getYear(),
+        itr->getStudent()->getGender()==MALE? "Male":"Female",
+        itr->getExamMark()==UNASSIGNED? "N/A": mark_str);
+    }
   }
 
   fprintf(fout,
@@ -159,9 +160,9 @@ void reportStudentsOfCourse(const Course& course, DoublyLinkedList<CourseSelecti
   fclose(fout);
 }
 
-void reportCoursesOfStudent(const Student& student, DoublyLinkedList<CourseSelection>& selections) {
+void reportCoursesOfStudent(const Student& student, DoublyLinkedList<CourseSelection> selections) {
   char name[50];
-  sprintf(name, "%s\n", student.getStudentID().c_str());
+  sprintf(name, "%s.html", student.getStudentID().c_str());
 
   FILE* fout = fopen(name,"w");
   fprintf(fout,
@@ -179,36 +180,37 @@ void reportCoursesOfStudent(const Student& student, DoublyLinkedList<CourseSelec
     "<P>\n"
     "<TABLE cellSpacing=1 cellPadding=1 border=1>\n\n",
     student.getStudentName().c_str(), student.getStudentID().c_str());
-  fprintf(fout,
-    "<TB>\n"
-    "<TD>Course code</TD>\n"
-    "<TD>Course Name</TD>\n"
-    "<TD>Credit</TD>\n"
-    "<TD>Exam Mark</TD>\n"
-    "</TR>\n\n");
-
-  DoublyLinkedList<CourseSelection>::iterator itr;
-
-  for(itr = selections.begin(); itr != selections.end(); itr++) {
-    char mark_str[16];
-    sprintf(mark_str, "%d", itr->getExamMark());
-
-    fprintf(fout,
-      "<TR>\n"
-      "<TD>%s</TD>\n"
-      "<TD>%s</TD>\n"
-      "<TD>%d</TD>\n"
-      "<TD>%s</TD>\n"
-      "</TD>\n\n",
-      itr->getCourse()->getCourseCode().c_str(),
-      itr->getCourse()->getCourseName().c_str(),
-      itr->getCourse()->getCredit(),
-      itr->getExamMark()==UNASSIGNED? "N/A": mark_str);
-  }
 
   if(selections.begin() == selections.end()) {
     fprintf(fout,
-      "<p>No student took this course</p>");
+      "<p>No course taken.</p>");
+  }else {
+    fprintf(fout,
+      "<TB>\n"
+      "<TD>Course code</TD>\n"
+      "<TD>Course Name</TD>\n"
+      "<TD>Credit</TD>\n"
+      "<TD>Exam Mark</TD>\n"
+      "</TR>\n\n");
+
+    DoublyLinkedList<CourseSelection>::iterator itr;
+
+    for(itr = selections.begin(); itr != selections.end(); itr++) {
+      char mark_str[16];
+      sprintf(mark_str, "%d", itr->getExamMark());
+
+      fprintf(fout,
+        "<TR>\n"
+        "<TD>%s</TD>\n"
+        "<TD>%s</TD>\n"
+        "<TD>%d</TD>\n"
+        "<TD>%s</TD>\n"
+        "</TD>\n\n",
+        itr->getCourse()->getCourseCode().c_str(),
+        itr->getCourse()->getCourseName().c_str(),
+        itr->getCourse()->getCredit(),
+        itr->getExamMark()==UNASSIGNED? "N/A": mark_str);
+    }
   }
 
   fprintf(fout,

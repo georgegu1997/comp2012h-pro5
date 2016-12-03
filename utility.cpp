@@ -95,3 +95,35 @@ string getKey(const Course& cou) {
 string getKey(const IndexByCode& index) {
   return index.CourseCode;
 }
+
+int Hash(const Student& stu) {
+  return StudentIDHash(stu.getStudentID());
+}
+
+int Hash(const Course& cou) {
+  return CourseCodeHash(cou.getCourseCode());
+}
+
+int Hash(const Student& sample, const string& id) {
+  return StudentIDHash(id);
+}
+
+int Hash(const Course& sample, const string& code) {
+  return CourseCodeHash(code);
+}
+
+int Hash(const IndexByID& index) {
+  return StudentIDHash(index.StudentID);
+}
+
+int Hash(const IndexByCode& index) {
+  return CourseCodeHash(index.CourseCode);
+}
+
+int Hash(const IndexByID& sample, const string& id) {
+  return StudentIDHash(id);
+}
+
+int Hash(const IndexByCode& sample, const string& code) {
+  return CourseCodeHash(code);
+}

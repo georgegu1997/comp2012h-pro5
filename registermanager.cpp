@@ -3,11 +3,11 @@
 using std::runtime_error;
 
 RegisterManager::RegisterManager() {
-  StudentTable students(STUDENT_ID_M, StudentIDHash);
-  CourseTable courses(COURSECODE_M, CourseCodeHash);
-  SelectionTable selections();
-  IDIndexTable id_indexes(STUDENT_ID_M, StudentIDHash);
-  CodeIndexTable code_indexes(COURSECODE_M, CourseCodeHash);
+  students = StudentTable(STUDENT_ID_M);
+  courses = CourseTable(COURSECODE_M);
+  selections = SelectionTable();
+  id_indexes = IDIndexTable(STUDENT_ID_M);
+  code_indexes = CodeIndexTable(COURSECODE_M);
 }
 
 RegisterManager::~RegisterManager() {}

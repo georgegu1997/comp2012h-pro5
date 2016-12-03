@@ -317,5 +317,7 @@ bool CourseSelection::isValidExammark(const int& mark) {
 void CourseSelection::print() {
   cout<<"Student ID: " <<getStudentID()<<endl;
   cout<<"CourseCode: " <<getCourseCode() <<endl;
-  cout<<"Exam Mark: " <<ExamMark <<endl;
+  char mark_str[16];
+  sprintf(mark_str, "%d", ExamMark);
+  cout<<"Exam Mark: " << ((ExamMark==UNASSIGNED)? "N/A":mark_str) <<endl;
 }

@@ -125,4 +125,20 @@ string getKey(const Course& cou);
 
 string getKey(const IndexByCode& index);
 
+int Hash(const Student& stu);
+
+int Hash(const Course& cou);
+
+int Hash(const Student& sample, const string& id);
+
+int Hash(const Course& sample, const string& code);
+
+int Hash(const IndexByID& index);
+
+int Hash(const IndexByCode& index);
+
+int Hash(const IndexByID& sample, const string& id);
+
+int Hash(const IndexByCode& sample, const string& code);
+
 #endif
