@@ -43,7 +43,7 @@ public:
 
   //the static functions to judge whether the input is valid or not
   static bool isValidID(const string&);
-  static bool isValidName(const String&);
+  static bool isValidName(const string&);
   static bool isValidYear(const int&);
   static bool isValidGender(const int&);
 

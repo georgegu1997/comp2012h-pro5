@@ -9,19 +9,19 @@
 #include "doublylinkedlist.h"
 #include "utility.h"
 #include <iostream>
+#include <vector>
 using std::cout;
 using std::endl;
 using std::vector;
 
 template <typename T>
 class HashTable {
-  typedef int (*) (const T&) HashFunction;
+  typedef int (*HashFunction) (const string&);
   friend class iterator;
 
 private:
   int m, _size;
   DoublyLinkedList<T>* arr;
-  T sample;
 
   typename DoublyLinkedList<T>::iterator searchAndAccessIterator(const string&);
   typename DoublyLinkedList<T>::iterator searchAndAccessIterator(const T&);
@@ -43,6 +43,7 @@ public:
   int size() const;
 
   DoublyLinkedList<T> returnAll() const;
+  DoublyLinkedList<T> returnByKey(const string&) const;
   void printAll();
 };
 
@@ -57,11 +58,11 @@ HashTable<T>::~HashTable() {
 
 template <typename T>
 HashTable<T>::HashTable(int bucketsnumber, HashFunction funcPtr)
-:m(bucketsnumber), arr(new DoublyLinkedList<T>[bucketsnumber]), _size(0); Hash(funcPtr) {}
+:m(bucketsnumber), arr(new DoublyLinkedList<T>[bucketsnumber]), _size(0), Hash(funcPtr) {}
 
 template <typename T>
 int HashTable<T>::insert(const T& item) {
-  int index = Hash(item);
+  int index = Hash(getKey(item));
   int result = arr[index].insertInOrder(item);
   if(result = 0) {
     _size++;
@@ -107,8 +108,19 @@ T* HashTable<T>::searchAndAccessPointer(const string& str) {
 }
 
 template <typename T>
+T* HashTable<T>::searchAndAccessPointer(const T& item) {
+  typename DoublyLinkedList<T>::iterator itr;
+  itr = searchAndAccessIterator(item);
+  if(itr.isDummy()) {
+    return NULL;
+  }else {
+    return &(*itr);
+  }
+}
+
+template <typename T>
 typename DoublyLinkedList<T>::iterator HashTable<T>::searchAndAccessIterator(const string& str) {
-  int index = Hash(sample, str);
+  int index = Hash(str);
   DoublyLinkedList<T>* list = &(arr[index]);
   typename DoublyLinkedList<T>::iterator itr;
   for(itr = list->begin(); ; itr++) {
@@ -122,27 +134,13 @@ typename DoublyLinkedList<T>::iterator HashTable<T>::searchAndAccessIterator(con
 
 template <typename T>
 typename DoublyLinkedList<T>::iterator HashTable<T>::searchAndAccessIterator(const T& item) {
-  int index = Hash(sample, str);
+  int index = Hash(getKey(item));
   DoublyLinkedList<T>* list = &(arr[index]);
   typename DoublyLinkedList<T>::iterator itr;
   for(itr = list->begin(); ; itr++) {
     if(itr == list->end()) {
       return itr;
     }else if(*itr == item) {
-      return itr;
-    }
-  }
-}
-
-template <typename T>
-typename DoublyLinkedList<T>::iterator HashTable<T>::searchAndAccessPointer(const T& item) {
-  int index = Hash(sample, str);
-  DoublyLinkedList<T>* list = &(arr[index]);
-  typename DoublyLinkedList<T>::iterator itr;
-  for(itr = list->begin(); ; itr++) {
-    if(itr == list->end()) {
-      return itr;
-    }else if(*itr == str) {
       return itr;
     }
   }
@@ -178,6 +176,21 @@ DoublyLinkedList<T> HashTable<T>::returnAll() const {
       for (itr = list->begin(); itr != list-> end(); itr++) {
         result.insertInOrder(*itr);
       }
+    }
+  }
+  return result;
+}
+
+template <typename T>
+DoublyLinkedList<T> HashTable<T>::returnByKey(const string& key) const {
+  DoublyLinkedList<T> result;
+  int hash_number = Hash(key);
+  DoublyLinkedList<T>* list = &(arr[hash_number]);
+  typename DoublyLinkedList<T>::iterator itr;
+
+  for(itr = list->begin(); itr != list->end(); itr++) {
+    if(*itr == key) {
+      list->insertInOrder(*itr);
     }
   }
   return result;

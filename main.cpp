@@ -10,6 +10,7 @@ using std::endl;
 using std::string;
 using std::getline;
 
+RegisterManager rm;
 
 string StudentIDInput() {
   string str;
@@ -35,11 +36,11 @@ int StudentYearInput() {
   int number;
   string str;
   getline(cin,str);
-  number = atoi(str);
+  number = atoi(str.c_str());
   while(!Student::isValidYear(number)){
     cout<<"Invalid input re-enter again [student year]: ";
     getline(cin,str);
-    number = atoi(str);
+    number = atoi(str.c_str());
   }
   return number;
 }
@@ -83,24 +84,24 @@ int CourseCreditsInput() {
   string str;
   int number;
   getline(cin, str);
-  number = atoi(str);
+  number = atoi(str.c_str());
   while(!Course::isValidCredit(number)) {
     cout<<"Invalid input, re-enter again [course credit]: ";
     getline(cin, str);
-    number = atoi(str);
+    number = atoi(str.c_str());
   }
   return number;
 }
 
 int ExamMarkInput() {
-  stirng str;
+  string str;
   int number;
   getline(cin, str);
-  number = atoi(str);
+  number = atoi(str.c_str());
   while(!CourseSelection::isValidExammark(number)) {
     cout<<"Invalid input, re-enter again [exam mark]: ";
     getline(cin, str);
-    number = atoi(str);
+    number = atoi(str.c_str());
   }
   return number;
 }
@@ -127,18 +128,18 @@ void StudentManagement() {
   cout<<"Enter your choice (1-5): ";
 
   getline(cin, option_str);
-  current_option = atoi(option_str);
+  current_option = atoi(option_str.c_str());
   while(current_option > 5 || current_option < 1) {
     cout<<"Invalid input, re-enter again (1-5): ";
     getline(cin, option_str);
-    current_option = atoi(option_str);
+    current_option = atoi(option_str.c_str());
   }
 
   if(current_option == 1) {
     Student stu;
 
     cout<<"Enter the student ID: ";
-    stu,setStudentID(StudentIDInput());
+    stu.setStudentID(StudentIDInput());
 
     cout<<"Enter the student name: ";
     stu.setStudentName(StudentNameInput());
@@ -155,7 +156,7 @@ void StudentManagement() {
       cout<<"Creation of student record fail";
     }
 
-    endOfLoop()
+    endOfLoop();
 
   }else if(current_option == 2) {
     string str;
@@ -182,11 +183,11 @@ void StudentManagement() {
       cout<<"Modification of student record successful"<<endl<<endl;
     }
 
-    endOfLoop()
+    endOfLoop();
 
   }else if(current_option == 3) {
     int result;
-    result = deleteStudent(StudentIDInput());
+    result = rm.deleteStudent(StudentIDInput());
     if(result == 0) {
       cout<<"Deletion of student record successful"<<endl<<endl;
     }else if(result < 0) {
@@ -228,11 +229,11 @@ void CourseManagement() {
   cout<<"Enter your choice (1-5): ";
 
   getline(cin, option_str);
-  current_option = atoi(option_str);
+  current_option = atoi(option_str.c_str());
   while(current_option > 5 || current_option < 1) {
     cout<<"Invalid input, re-enter again (1-5): ";
     getline(cin, option_str);
-    current_option = atoi(option_str);
+    current_option = atoi(option_str.c_str());
   }
 
   if(current_option == 1) {
@@ -242,7 +243,7 @@ void CourseManagement() {
     cou.setCourseCode(CourseCodeInput());
 
     cout<<"Enter the course name: ";
-    cou.setCourdeName(CourseNameInput());
+    cou.setCourseName(CourseNameInput());
 
     cout<<"Enter the course credits [0-5]: ";
     cou.setCredit(CourseCreditsInput());
@@ -263,7 +264,7 @@ void CourseManagement() {
       cout<<"Course not exist"<<endl<<endl;
     }else {
       cout<<"Enter the course name["<<couPtr->getCourseName()<<"]: ";
-      couPtr->setCourdeName(CourseNameInput());
+      couPtr->setCourseName(CourseNameInput());
 
       cout<<"Enter the course credit["<<couPtr->getCredit()<<"]: ";
       couPtr->setCredit(CourseCreditsInput());
@@ -274,7 +275,7 @@ void CourseManagement() {
     endOfLoop();
   }else if(current_option == 3) {
     int result;
-    result = deleteCourse(CourseCodeInput());
+    result = rm.deleteCourse(CourseCodeInput());
     if(result == 0) {
       cout<<"Deletion of course record successful"<<endl<<endl;
     }else if(result < 0) {
@@ -285,7 +286,7 @@ void CourseManagement() {
 
   }else if(current_option == 4) {
     Course* couPtr;
-    stuPtr = rm.queryCourse(CourseCodeInput());
+    couPtr = rm.queryCourse(CourseCodeInput());
     if(couPtr == NULL) {
       cout<<"Course not exist"<<endl<<endl;
     }else {
@@ -315,23 +316,23 @@ void CourseRegistration() {
   cout<<"Enter your choice (1-5): ";
 
   getline(cin, option_str);
-  current_option = atoi(option_str);
+  current_option = atoi(option_str.c_str());
   while(current_option > 5 || current_option < 1) {
     cout<<"Invalid input, re-enter again (1-5): ";
     getline(cin, option_str);
-    current_option = atoi(option_str);
+    current_option = atoi(option_str.c_str());
   }
 
   if(current_option == 1) {
 
     Student* stu = rm.queryStudent(StudentIDInput());
-    if(Stu == NULL) {
+    if(stu == NULL) {
       cout<<"Student not exist"<<endl<<endl;
       endOfLoop();
       return;
     }
 
-    Course* cou = em.queryCourse(CourseCodeInput());
+    Course* cou = rm.queryCourse(CourseCodeInput());
     if(cou == NULL) {
       cout<<"Course not exist"<<endl<<endl;
       endOfLoop();
@@ -339,7 +340,7 @@ void CourseRegistration() {
     }
 
     CourseSelection cs(stu, cou, UNASSIGNED);
-    result = rm.add(cs);
+    int result = rm.add(cs);
 
     if(result < 0) {
       cout<<"The student already registered the course"<<endl<<endl;
@@ -422,7 +423,7 @@ void CourseRegistration() {
     }else {
       cout<<endl;
       cs->print();
-      cour<<endl;
+      cout<<endl;
     }
 
     endOfLoop();
@@ -447,11 +448,11 @@ void ReportManagement() {
   cout<<"Enter your choice (1-5): ";
 
   getline(cin, option_str);
-  current_option = atoi(option_str);
+  current_option = atoi(option_str.c_str());
   while(current_option > 5 || current_option < 1) {
     cout<<"Invalid input, re-enter again (1-5): ";
     getline(cin, option_str);
-    current_option = atoi(option_str);
+    current_option = atoi(option_str.c_str());
   }
 
   if(current_option == 1) {
@@ -512,11 +513,11 @@ void FileManagement() {
   cout<<"Enter your choice (1-3): ";
 
   getline(cin, option_str);
-  current_option = atoi(option_str);
+  current_option = atoi(option_str.c_str());
   while(current_option > 5 || current_option < 1) {
     cout<<"Invalid input, re-enter again (1-3): ";
     getline(cin, option_str);
-    current_option = atoi(option_str);
+    current_option = atoi(option_str.c_str());
   }
 
   if(current_option == 1) {
@@ -544,11 +545,11 @@ void main_loop() {
   cout<<"Enter your choice (1-6): ";
 
   getline(cin, option_str);
-  current_option = atoi(option_str);
+  current_option = atoi(option_str.c_str());
   while(current_option > 6 || current_option < 1) {
     cout<<"Invalid input, re-enter again (1-6): ";
     getline(cin, option_str);
-    current_option = atoi(option_str);
+    current_option = atoi(option_str.c_str());
   }
 
   if(current_option == 1) {
@@ -568,7 +569,7 @@ void main_loop() {
 }
 
 int main() {
-  RegisterManager rm;
+
   while(true) {
     main_loop();
   }

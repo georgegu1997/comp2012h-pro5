@@ -50,8 +50,8 @@ public:
   T* insertAndReturnAddress (const T&);
 
   //these method are of the same functions as the name suggested, copied from the project 3
-  void addLast(const T&);
-  void addFirst(const T&);
+  void addLast(T);
+  void addFirst(T);
   T removeFirst();
   T removeLast();
 
@@ -76,8 +76,9 @@ public:
     bool operator!=(const iterator& itr);
     iterator operator+(int);
     iterator operator-(int);
+    T* operator->();
     //insert a node at the current position, the ones after it will be pushed back.
-    void insert(const T&);
+    void insert(T);
     //delete the node at the current position, the ones after it will be pushed front.
     void deleteCurrent();
     //return true if the iterator is at haed position.
@@ -146,7 +147,7 @@ DoublyLinkedList<T>::~DoublyLinkedList() {
 }
 
 template <typename T>
-void DoublyLinkedList<T>::addFirst(const T& item) {
+void DoublyLinkedList<T>::addFirst(T item) {
   Node *new_node = new Node;
   new_node->data = item;
   new_node->next = head->next;
@@ -157,7 +158,7 @@ void DoublyLinkedList<T>::addFirst(const T& item) {
 }
 
 template <typename T>
-void DoublyLinkedList<T>::addLast(const T& item) {
+void DoublyLinkedList<T>::addLast(T item) {
   Node *new_node = new Node;
   new_node->data = item;
   new_node->prev = head->prev;
@@ -262,7 +263,7 @@ DoublyLinkedList<T>::iterator::iterator(const iterator& itr) {
 }
 
 template <typename T>
-void DoublyLinkedList<T>::iterator::insert(const T& item) {
+void DoublyLinkedList<T>::iterator::insert(T item) {
   Node* new_node = new Node;
   new_node->data = item;
   new_node->next = this->node;
@@ -343,6 +344,11 @@ bool DoublyLinkedList<T>::iterator::operator==(const iterator& itr) {
 template <typename T>
 bool DoublyLinkedList<T>::iterator::operator!=(const iterator& itr) {
   return this->node != itr.node;
+}
+
+template <typename T>
+T* DoublyLinkedList<T>::iterator::operator->() {
+  return &(node->data);
 }
 
 template <typename T>

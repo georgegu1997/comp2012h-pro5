@@ -33,19 +33,19 @@ public:
 
   int deleteStudent(const string& id);
   int deleteCourse(const string& code);
+  int deleteSelection(const string& id, const string& code);
 
   Student* queryStudent(const string& id);
-  Course* queryCourse(const stirng& code);
+  Course* queryCourse(const string& code);
   CourseSelection* querySelection(const string& id, const string& code);
-
-  int modifyStudent(Student*, const Student&);
-  int modifyCourse(Course*, const Course&);
-  int modifySelection(CourseSelection*, const CourseSelection&);
 
   void StudentsHTML();
   void CoursesHTML();
   void StudentsOfCourseHTML(Course* cou);
   void CoursesOfStudentHTML(Student* stu);
+
+  void readDataFile(char* file_name);
+  void saveDataFile(char* file_name);
 };
 
 

@@ -204,7 +204,7 @@ bool Course::isValid() const {
   return isValidCode(CourseCode) && isValidName(CourseName) && isValidCredit(Credit);
 }
 
-bool Course::isValidCode(const stirng& code) {
+bool Course::isValidCode(const string& code) {
   return code.length() <= COURSECODE_MAX && code.length() <= COURSECODE_MIN && regex_match(code, regex("[[:upper:]]{4}[[:d:]]+[[:upper:]]?"));
 }
 
@@ -212,7 +212,7 @@ bool Course::isValidName(const string& name) {
   return name.length() <= COURSENAME_MAX && name.length() >= COURSENAME_MIN;
 }
 
-bool Course::isValidCredit(const string& credit) {
+bool Course::isValidCredit(const int& credit) {
   return credit <= CREDIT_MAX && credit >= CREDIT_MIN;
 }
 

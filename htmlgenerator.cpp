@@ -6,7 +6,7 @@
 #include <string>
 #include <cstdio>
 
-void reportAllCourses(const DoublyLinkedList<Course>& courses) {
+void reportAllCourses(DoublyLinkedList<Course>& courses) {
   FILE* fout = fopen("Courses.html","w");
   fprintf(fout,
     "<HTML>\n"
@@ -37,7 +37,7 @@ void reportAllCourses(const DoublyLinkedList<Course>& courses) {
       "<TD>%s</TD>\n"
       "<TD>%d</TD>\n"
       "</TD>\n\n",
-      itr->getCourseCode().c_str(), itr->getCourseName().c_str(); itr->getCredit());
+      itr->getCourseCode().c_str(), itr->getCourseName().c_str(), itr->getCredit());
   }
 
   fprintf(fout,
@@ -49,7 +49,7 @@ void reportAllCourses(const DoublyLinkedList<Course>& courses) {
   fclose(fout);
 }
 
-void reportAllStudents(const DoublyLinkedList<Student>& students) {
+void reportAllStudents(DoublyLinkedList<Student>& students) {
   FILE* fout = fopen("Students.html","w");
   fprintf(fout,
     "<HTML>\n"
@@ -95,9 +95,9 @@ void reportAllStudents(const DoublyLinkedList<Student>& students) {
   fclose(fout);
 }
 
-void reportStudentsOfCourse(const Course& course, const DoublyLinkedList<CourseSelection>& selections) {
+void reportStudentsOfCourse(const Course& course, DoublyLinkedList<CourseSelection>& selections) {
   char name[50];
-  fprintf(name, "%s\n", course.getCourseCode().c_str());
+  sprintf(name, "%s\n", course.getCourseCode().c_str());
 
   FILE* fout = fopen(name,"w");
   fprintf(fout,
@@ -127,19 +127,22 @@ void reportStudentsOfCourse(const Course& course, const DoublyLinkedList<CourseS
   DoublyLinkedList<CourseSelection>::iterator itr;
 
   for(itr = selections.begin(); itr != selections.end(); itr++) {
+    char mark_str[16];
+    sprintf(mark_str, "%d", itr->getExamMark());
+
     fprintf(fout,
       "<TR>\n"
       "<TD>%s</TD>\n"
       "<TD>%s</TD>\n"
       "<TD>%d</TD>\n"
       "<TD>%s</TD>\n"
-      "<TD>%d</TD>\n"
+      "<TD>%s</TD>\n"
       "</TD>\n\n",
       itr->getStudent()->getStudentID().c_str(),
       itr->getStudent()->getStudentName().c_str(),
-      itr->getStudent()->getYear();
+      itr->getStudent()->getYear(),
       itr->getStudent()->getGender()==MALE? "Male":"Female",
-      itr->getExamMark());
+      itr->getExamMark()==UNASSIGNED? "N/A": mark_str);
   }
 
   if(selections.begin() == selections.end()) {
@@ -156,9 +159,9 @@ void reportStudentsOfCourse(const Course& course, const DoublyLinkedList<CourseS
   fclose(fout);
 }
 
-void reportCoursesOfStudent(const Student& student, const DoublyLinkedList<CourseSelection>& selections) {
+void reportCoursesOfStudent(const Student& student, DoublyLinkedList<CourseSelection>& selections) {
   char name[50];
-  fprintf(name, "%s\n", student.getStudentID().c_str());
+  sprintf(name, "%s\n", student.getStudentID().c_str());
 
   FILE* fout = fopen(name,"w");
   fprintf(fout,
@@ -187,17 +190,20 @@ void reportCoursesOfStudent(const Student& student, const DoublyLinkedList<Cours
   DoublyLinkedList<CourseSelection>::iterator itr;
 
   for(itr = selections.begin(); itr != selections.end(); itr++) {
+    char mark_str[16];
+    sprintf(mark_str, "%d", itr->getExamMark());
+
     fprintf(fout,
       "<TR>\n"
       "<TD>%s</TD>\n"
       "<TD>%s</TD>\n"
       "<TD>%d</TD>\n"
-      "<TD>%d</TD>\n"
+      "<TD>%s</TD>\n"
       "</TD>\n\n",
       itr->getCourse()->getCourseCode().c_str(),
       itr->getCourse()->getCourseName().c_str(),
       itr->getCourse()->getCredit(),
-      itr->getExamMark());
+      itr->getExamMark()==UNASSIGNED? "N/A": mark_str);
   }
 
   if(selections.begin() == selections.end()) {
