@@ -29,15 +29,23 @@ int RegisterManager::add(const CourseSelection& cs) {
   return 0;
 }
 
-Student* queryStudent(const string& id) {
+int RegisterManager::deleteStudent(const string& id) {
+  return students.deleteByKey(id);
+}
+
+int RegisterManager::deleteCourse(const string& code){
+  return courses.deleteByKey(code);
+}
+
+Student* RegisterManager::queryStudent(const string& id) {
   return students.searchAndAccessPointer(id);
 }
 
-Course* queryCourse(const string& code) {
+Course* RegisterManager::queryCourse(const string& code) {
   return courses.searchAndAccessPointer(code);
 }
 
-CourseSelection* querySelection(const string& id, const string& code) {
+CourseSelection* RegisterManager::querySelection(const string& id, const string& code) {
   SelectionTable::iterator itr;
   for(itr = selections.begin(); itr != selections.end(); itr ++) {
     if(itr->getStudentID() == id && itr->getCourseCode() == code) {
@@ -47,7 +55,7 @@ CourseSelection* querySelection(const string& id, const string& code) {
   return NULL;
 }
 
-int modifyStudent(Student* _data, const Student& _new) {
+int RegisterManager::modifyStudent(Student* _data, const Student& _new) {
   if (_new.isValid()) {
     *(_data) = _new;
     return 0;
@@ -56,7 +64,7 @@ int modifyStudent(Student* _data, const Student& _new) {
   }
 }
 
-int modifyCourse(Course* _data, const Course& _new) {
+int RegisterManager::modifyCourse(Course* _data, const Course& _new) {
   if(_new.isValid()) {
     *(_data) = _new;
     return 0
@@ -65,7 +73,7 @@ int modifyCourse(Course* _data, const Course& _new) {
   }
 }
 
-int modifySelection(CourseSelection* _data, const CourseSelection& _new) {
+int RegisterManager::modifySelection(CourseSelection* _data, const CourseSelection& _new) {
   if(_new.isValid()) {
     *(_data) = _new;
     return 0;
@@ -74,18 +82,18 @@ int modifySelection(CourseSelection* _data, const CourseSelection& _new) {
   }
 }
 
-void StudentsHTML() {
+void RegisterManager::StudentsHTML() {
   reportAllStudents(students.returnAll());
 }
 
-void CoursesHTML() {
+void RegisterManager::CoursesHTML() {
   reportAllCourses(courses.returnAll());
 }
 
-void StudentsOfCourseHTML(Course* cou) {
+void RegisterManager::StudentsOfCourseHTML(Course* cou) {
 
 }
 
-void CoursesOfStudentHTML(Student* stu) {
+void RegisterManager::CoursesOfStudentHTML(Student* stu) {
 
 }

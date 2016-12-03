@@ -30,7 +30,7 @@ const int FEMALE = 1;
 
 const int UNASSIGNED = -1;
 const int EXAMMARK_MAX = 100;
-const int EXAMMARK_MIN = -1;
+const int EXAMMARK_MIN = 0;
 
 const int YEAR_MAX = 3;
 const int YEAR_MIN = 1;

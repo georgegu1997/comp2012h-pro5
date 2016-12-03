@@ -29,6 +29,12 @@ public:
   int add(const Course& cou);
   int add(const CourseSelection& cs);
 
+  int register(const string& id, const string& code);
+  int drop(const string& id, const string& code);
+
+  int deleteStudent(const string& id);
+  int deleteCourse(const string& code);
+
   Student* queryStudent(const string& id);
   Course* queryCourse(const stirng& code);
   CourseSelection* querySelection(const string& id, const string& code);
