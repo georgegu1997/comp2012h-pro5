@@ -142,6 +142,11 @@ void reportStudentsOfCourse(const Course& course, const DoublyLinkedList<CourseS
       itr->getExamMark());
   }
 
+  if(selections.begin() == selections.end()) {
+    fprintf(fout,
+      "<p>No course taken</p>");
+  }
+
   fprintf(fout,
     "</TABLE>\n"
     "</P>\n"
@@ -193,6 +198,11 @@ void reportCoursesOfStudent(const Student& student, const DoublyLinkedList<Cours
       itr->getCourse()->getCourseName().c_str(),
       itr->getCourse()->getCredit(),
       itr->getExamMark());
+  }
+
+  if(selections.begin() == selections.end()) {
+    fprintf(fout,
+      "<p>No student took this course</p>");
   }
 
   fprintf(fout,

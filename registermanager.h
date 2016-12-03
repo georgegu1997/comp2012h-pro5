@@ -29,7 +29,6 @@ public:
   int add(const Course& cou);
   int add(const CourseSelection& cs);
 
-  int register(const string& id, const string& code);
   int drop(const string& id, const string& code);
 
   int deleteStudent(const string& id);

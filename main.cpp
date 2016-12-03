@@ -92,6 +92,19 @@ int CourseCreditsInput() {
   return number;
 }
 
+int ExamMarkInput() {
+  stirng str;
+  int number;
+  getline(cin, str);
+  number = atoi(str);
+  while(!CourseSelection::isValidExammark(number)) {
+    cout<<"Invalid input, re-enter again [exam mark]: ";
+    getline(cin, str);
+    number = atoi(str);
+  }
+  return number;
+}
+
 void endOfLoop() {
   string str;
   cout<<"Hit ENTER to continue..."<<endl;
@@ -311,12 +324,109 @@ void CourseRegistration() {
 
   if(current_option == 1) {
 
+    Student* stu = rm.queryStudent(StudentIDInput());
+    if(Stu == NULL) {
+      cout<<"Student not exist"<<endl<<endl;
+      endOfLoop();
+      return;
+    }
+
+    Course* cou = em.queryCourse(CourseCodeInput());
+    if(cou == NULL) {
+      cout<<"Course not exist"<<endl<<endl;
+      endOfLoop();
+      return;
+    }
+
+    CourseSelection cs(stu, cou, UNASSIGNED);
+    result = rm.add(cs);
+
+    if(result < 0) {
+      cout<<"The student already registered the course"<<endl<<endl;
+    }else {
+      cout<<"Add course successful"<<endl<<endl;
+    }
+
+    endOfLoop();
+
   }else if(current_option == 2) {
 
+    Student* stu = rm.queryStudent(StudentIDInput());
+    if(stu == NULL) {
+      cout<<"Student not exist"<<endl<<endl;
+      endOfLoop();
+      return;
+    }
+
+    Course* cou = rm.queryCourse(CourseCodeInput());
+    if(cou == NULL) {
+      cout<<"Course not exist"<<endl<<endl;
+      endOfLoop();
+      return;
+    }
+
+    int result = rm.deleteSelection(stu->getStudentID(), cou->getCourseCode());
+    if(result == 0) {
+      cout<<"Drop course successful"<<endl<<endl;
+    }else {
+      cout<<"The registration record not exist"<<endl<<endl;
+    }
+
+    endOfLoop();
+    return;
+
   }else if(current_option == 3) {
+    Student* stu = rm.queryStudent(StudentIDInput());
+    if(stu == NULL) {
+      cout<<"Student not exist"<<endl<<endl;
+      endOfLoop();
+      return;
+    }
 
+    Course* cou = rm.queryCourse(CourseCodeInput());
+    if(cou == NULL) {
+      cout<<"Course not exist"<<endl<<endl;
+      endOfLoop();
+      return;
+    }
+
+    CourseSelection* cs = rm.querySelection(stu->getStudentID(), cou->getCourseCode());
+    if(cs == NULL) {
+      cout<<"Registration record not exist"<<endl<<endl;
+    }else {
+      cout<<"Enter the exam mark ["<<cs->getExamMark()<<"]: ";
+      cs->setExamMark(ExamMarkInput());
+      cout<<"Modification of the exam mark successful"<<endl<<endl;
+    }
+
+    endOfLoop();
+    return;
   }else if(current_option == 4) {
+    Student* stu = rm.queryStudent(StudentIDInput());
+    if(stu == NULL) {
+      cout<<"Student not exist"<<endl<<endl;
+      endOfLoop();
+      return;
+    }
 
+    Course* cou = rm.queryCourse(CourseCodeInput());
+    if(cou == NULL) {
+      cout<<"Course not exist"<<endl<<endl;
+      endOfLoop();
+      return;
+    }
+
+    CourseSelection* cs = rm.querySelection(stu->getStudentID(), cou->getCourseCode());
+    if(cs == NULL) {
+      cout<<"Registration record not exist"<<endl<<endl;
+    }else {
+      cout<<endl;
+      cs->print();
+      cour<<endl;
+    }
+
+    endOfLoop();
+    return;
   }else if(current_option == 5) {
     return;
   }
@@ -345,12 +455,44 @@ void ReportManagement() {
   }
 
   if(current_option == 1) {
+    rm.StudentsHTML();
+    cout<<"Output successful"<<endl<<endl;
+    endOfLoop();
+    return;
 
   }else if(current_option == 2) {
+    rm.CoursesHTML();
+    cout<<"Output successful"<<endl<<endl;
+    endOfLoop();
+    return;
 
   }else if(current_option == 3) {
+    Student* stu = rm.queryStudent(StudentIDInput());
+    if(stu == NULL) {
+      cout<<"Student not exist"<<endl<<endl;
+      endOfLoop();
+      return;
+    }
+
+    rm.CoursesOfStudentHTML(stu);
+
+    cout<<"Output successful"<<endl<<endl;
+    endOfLoop();
+    return;
 
   }else if(current_option == 4) {
+    Course* cou = rm.queryCourse(CourseCodeInput());
+    if(cou == NULL) {
+      cout<<"Course not exist"<<endl<<endl;
+      endOfLoop();
+      return;
+    }
+
+    rm.StudentsOfCourseHTML(cou);
+
+    cout<<"Output successful"<<endl<<endl;
+    endOfLoop();
+    return;
 
   }else if(current_option == 5) {
     return;

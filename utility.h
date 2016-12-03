@@ -90,6 +90,14 @@ struct IndexByID {
     return StudentID == index.StudentID;
   }
 
+  bool operator==(CourseSelection* cs) {
+    return selection == cs;
+  }
+
+  bool operator==(const CourseSelection& cs) {
+    return &selection == cs;
+  }
+
   bool operator<(const IndexByID& index) {
     return StudentID < index.StudentID;
   }
@@ -120,6 +128,14 @@ struct IndexByCode {
 
   bool operator==(const IndexByCode& index) {
     return CourseCode == index.CourseCode;
+  }
+
+  bool operator==(CourseSelection* cs) {
+    return selection == cs;
+  }
+
+  bool operator==(const CourseSelection& cs) {
+    return &selection = cs;
   }
 
   bool operator<(const IndexByCode& index) {

@@ -1,4 +1,6 @@
 #include "registermanager.h"
+#include <stdexcept>
+using std::runtime_error;
 
 RegisterManager::RegisterManager() {
   StudentTable students(STUDENT_ID_M, StudentHash);
@@ -35,6 +37,26 @@ int RegisterManager::deleteStudent(const string& id) {
 
 int RegisterManager::deleteCourse(const string& code){
   return courses.deleteByKey(code);
+}
+
+int RegisterManager::deleteSelection(const string& id, const string& code) {
+  SelectionTable::iterator itr;
+  CourseSelection* cs = NULL;
+  for(itr = selecitons.begin(); itr != selections.end(); itr++) {
+    if(itr->getStudentID() == id && itr->getCourseCode() == code) {
+      int i;
+      cs = &(*itr);
+      IndexByID id_index(cs, cs->getStudentID());
+      IndexByCode id_index(cs, cs->getCourseCode());
+      i = id_indexes.deleteByKey(id_index);
+      if(i < 0) throw runtime_error("id index not exist!");
+      i = code_indexes.deleteByKey(code_index);
+      if(i < 0) throw runtime_error("code index not exits!");
+      itr.deleteCurrent();
+      return 0;
+    }
+  }
+  return -1;
 }
 
 Student* RegisterManager::queryStudent(const string& id) {
