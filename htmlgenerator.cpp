@@ -1,3 +1,10 @@
+//For Register Project#5 of COMP 2012H @HKUST
+//Auther: GU Qiao
+//All rights reserved
+//
+//htmlgenerator.cpp
+//The implementation of the htmlgenerator functions
+
 #include "htmlgenerator.h"
 #include "constants.h"
 #include <fstream>

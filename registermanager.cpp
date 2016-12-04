@@ -1,3 +1,10 @@
+//For Register Project#5 of COMP 2012H @HKUST
+//Auther: GU Qiao
+//All rights reserved
+//
+//registermanager.cpp
+//The implementation of the RegisterManager class
+
 #include "registermanager.h"
 #include "constants.h"
 #include <stdexcept>

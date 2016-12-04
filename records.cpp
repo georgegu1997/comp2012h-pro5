@@ -1,3 +1,10 @@
+//For Register Project#5 of COMP 2012H @HKUST
+//Auther: GU Qiao
+//All rights reserved
+//
+//records.cpp
+//The implementation of the record classes
+//use regular expression in the standard library to test the test the calidity of the input
 // need to add "-std=c++11" or "-std=gnu++11" to the complie command when compiling
 
 #include "records.h"

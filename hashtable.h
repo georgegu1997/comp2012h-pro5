@@ -4,6 +4,7 @@
 //
 //hashtable.h
 //hash table written in template;
+
 #ifndef HASHTABLE_H
 #define HASHTABLE_H
 #include "doublylinkedlist.h"
@@ -28,25 +29,49 @@ private:
   //HashFunction Hash;
   T sample;
 public:
+  //The default constructor and destructor
   HashTable();
   ~HashTable();
+
+  //constructor with the number of buckets
   HashTable(int);
 
+  //insert an element to the correspoding bucket and in order
   int insert(const T&);
 
+  //delete the element by search and equal
+  //return 0 if deletion success; return -1 if the no elemnt satisfying the condition
   int deleteByKey(const string&);
   int deleteByKey(const T&);
 
+  //search the elementby operator=
+  //return NULL if the elemnet not exist
   T* searchAndAccessPointer(const string&);
   T* searchAndAccessPointer(const T&);
+
+  //clear all the elements stored, making it empty
   void clear();
+
+  //return whther it's empty
   bool isEmpty() const;
+
+  //return the number of the elmenets
   int size() const;
 
+  //return all the elements in a doublylinkedlist, which are in the order by the comparator<
   DoublyLinkedList<T> returnAll();
+
+  //return all the elements satisfying the operator= in a doublylinkedlist, also in order
   DoublyLinkedList<T> returnByKey(const string&);
+
+  //print function, will print the hash buckets and the elements in each buckets
+  //mainly used for debugging
   void printAll();
 };
+
+/*
+ *implementation
+ */
 
 template <typename T>
 HashTable<T>::HashTable()

@@ -47,6 +47,9 @@ public:
   //return -1 if there already exists the data
   int insertInOrder(const T&);
 
+  //insert an element according the comparator <
+  //return the pointer to the data inserted
+  //return NULL is the lement already exists
   T* insertAndReturnAddress (const T&);
 
   //these method are of the same functions as the name suggested, copied from the project 3
@@ -55,6 +58,7 @@ public:
   T removeFirst();
   T removeLast();
 
+  //delete all the data stored in the list
   void clear();
 
   class iterator {
@@ -69,22 +73,36 @@ public:
     //the assign constructor
     iterator& operator=(const iterator& itr);
 
+    //go to the next node
     iterator operator++();
     iterator operator++(int);
+
+    //return reference of the element T stored in the node
     T& operator*();
+
+    //compare operator
     bool operator==(const iterator& itr);
     bool operator!=(const iterator& itr);
+
+    //go to the next/prev nodes
     iterator operator+(int);
     iterator operator-(int);
+
+    //return the pointer to make it like a pointer variable
     T* operator->();
+
     //insert a node at the current position, the ones after it will be pushed back.
     void insert(T);
+
     //delete the node at the current position, the ones after it will be pushed front.
     void deleteCurrent();
+
     //return true if the iterator is at haed position.
     bool isDummy();
   private:
     Node* node;
+
+    //stored the address the node belongs to
     DoublyLinkedList<T>* list;
   };
 
@@ -94,6 +112,10 @@ public:
   //return the head node of the list as a iterator
   iterator end();
 };
+
+/*
+ *The implementation
+ */
 
 template <typename T>
 DoublyLinkedList<T>::DoublyLinkedList()

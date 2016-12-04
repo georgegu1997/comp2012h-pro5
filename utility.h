@@ -1,3 +1,11 @@
+//For Register Project#5 of COMP 2012H @HKUST
+//Auther: GU Qiao
+//All rights reserved
+//
+//utility.h
+//The header file for the utility
+//define hash function, indexes class, and print functions.
+
 #ifndef UTILITY_H
 #define UTILITY_H
 

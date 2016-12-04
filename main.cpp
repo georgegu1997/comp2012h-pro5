@@ -1,3 +1,11 @@
+//For Register Project#5 of COMP 2012H @HKUST
+//Auther: GU Qiao
+//All rights reserved
+//
+//main.cpp
+//The main function
+//And all the UI and frontend logic
+
 #include "registermanager.h"
 #include <cstdlib>
 #include <cstdio>
@@ -13,7 +21,11 @@ using std::getline;
 using std::ifstream;
 using std::ofstream;
 
+//declare the RegisterManager instance
 RegisterManager rm;
+
+//Thess imput functions will ask for user's input and ask for re-enter
+//repeatedly if the input is not valid
 
 string StudentIDInput() {
   cout<<"Enter the student ID: ";
@@ -111,6 +123,7 @@ int ExamMarkInput() {
   return number;
 }
 
+//Just print some information to restart the main loop
 void endOfLoop() {
   string str;
   cout<<"Hit ENTER to continue..."<<endl;
@@ -118,6 +131,8 @@ void endOfLoop() {
   return;
 }
 
+// All the modules of the project UI
+//control all the logic users can see
 void StudentManagement() {
   int current_option;
   string option_str;
@@ -572,6 +587,9 @@ void FileManagement() {
   }
 }
 
+//main loop function
+//a loop is one manipulation of the database
+
 void main_loop() {
   int current_option;
   string option_str;
@@ -610,6 +628,10 @@ void main_loop() {
   }
   return;
 }
+
+//main function, where the function starts
+//will repeat the main_loop function in finitely
+//until the user enter 6 to exit the program
 
 int main() {
   while(true) {

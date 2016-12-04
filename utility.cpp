@@ -1,3 +1,11 @@
+//For Register Project#5 of COMP 2012H @HKUST
+//Auther: GU Qiao
+//All rights reserved
+//
+//utility.cpp
+//The Hash functions
+//The print functions
+
 #include "utility.h"
 
 int StudentIDHash(const string& ID) {
