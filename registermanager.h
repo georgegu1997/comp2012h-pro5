@@ -6,6 +6,9 @@
 #include "htmlgenerator.h"
 #include "constants.h"
 #include "utility.h"
+#include <fstream>
+using std::ifstream;
+using std::ofstream;
 
 class RegisterManager {
   typedef HashTable<Student> StudentTable;
@@ -44,8 +47,8 @@ public:
   void StudentsOfCourseHTML(Course* cou);
   void CoursesOfStudentHTML(Student* stu);
 
-  void readDataFile(char* file_name);
-  void saveDataFile(char* file_name);
+  int loadDataFile(ifstream& fout);
+  int saveDataFile(ofstream& fin);
 };
 
 

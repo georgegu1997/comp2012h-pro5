@@ -112,3 +112,45 @@ void RegisterManager::CoursesOfStudentHTML(Student* stu) {
 
   reportCoursesOfStudent(*stu, selection_list);
 }
+
+int RegisterManager::loadDataFile(ifstream& fin) {
+  StudentTable new_students(STUDENT_ID_M);
+  CourseTable new_courses(COURSECODE_M);
+  SelectionTable new_selections;
+  IDIndexTable new_id_indexes(STUDENT_ID_M);
+  CodeIndexTable new_code_indexes(COURSECODE_M);
+}
+
+int RegisterManager::saveDataFile(ofstream& fout) {
+  DoublyLinkedList<Student> student_list;
+  DoublyLinkedList<Course> course_list;
+  DoublyLinkedList<Student>::iterator student_itr;
+  DoublyLinkedList<Course>::iterator course_itr;
+  DoublyLinkedList<CourseSelection>::iterator selection_itr;
+
+  student_list = students.returnAll();
+  course_list = courses.returnAll();
+
+  fout<<"__student"<<endl;
+  for(student_itr = student_list.begin(); student_itr != student_list.end(); student_itr++) {
+    fout<<student_itr->getStudentID()<<endl;
+    fout<<student_itr->getStudentName()<<endl;
+    fout<<student_itr->getYear()<<endl;
+    fout<<student_itr->getGender()<<endl;
+  }
+  fout<<"__course"<<endl;
+  for(course_itr = course_list.begin(); course_itr != course_list.end(); course_itr++) {
+    fout<<course_itr->getCourseCode()<<endl;
+    fout<<course_itr->getCourseName()<<endl;
+    fout<<course_itr->getCredit()<<endl;
+  }
+  fout<<"__selection"<<endl;
+  for(selection_itr = selections.begin(); selection_itr != selections.end(); selection_itr++) {
+    fout<<selection_itr->getStudentID()<<endl;
+    fout<<selection_itr->getCourseCode()<<endl;
+    fout<<selection_itr->getExamMark()<<endl;
+  }
+
+  fout.close();
+
+}

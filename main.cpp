@@ -3,12 +3,15 @@
 #include <cstdio>
 #include <iostream>
 #include <cstring>
+#include <fstream>
 using std::system;
 using std::cin;
 using std::cout;
 using std::endl;
 using std::string;
 using std::getline;
+using std::ifstream;
+using std::ofstream;
 
 RegisterManager rm;
 
@@ -523,9 +526,34 @@ void FileManagement() {
   }
 
   if(current_option == 1) {
+    cout<<"Enter the file name: ";
+    string file_name;
+    getline(cin, file_name);
 
+    ofstream fout(file_name.c_str());
+    if(!fout.is_open()) {
+      cout<<"Cannot open the file"<<endl<<endl;
+      endOfLoop();
+      return;
+    }
+
+    rm.saveDataFile(fout);
+    cout<<"Save data successful"<<endl<<endl;
+    endOfLoop();
+    return;
   }else if(current_option == 2) {
+    cout<<"Enter the file name: ";
+    string file_name;
+    getline(cin, file_name);
 
+    ifstream fin(file_name.c_str());
+    if(!fin.is_open()) {
+      cout<<"Cannot open the file"<<endl<<endl;
+      endOfLoop();
+      return;
+    }
+
+    rm.loadDataFile(fin);
   }else if(current_option == 3) {
     return;
   }

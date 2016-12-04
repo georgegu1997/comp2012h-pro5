@@ -1,6 +1,7 @@
 #ifndef RECORDS_H
 #define RECORDS_H
 #include <string>
+#include <fstream>
 #include "constants.h"
 using std::string;
 
@@ -47,7 +48,7 @@ public:
   static bool isValidYear(const int&);
   static bool isValidGender(const int&);
 
-  //function for debugging
+  //formatted output for console
   void print();
 };
 
