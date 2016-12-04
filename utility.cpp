@@ -64,20 +64,28 @@ int IndexCodeHash(const IndexByCode& index) {
   return CourseCodeHash(index.CourseCode);
 }
 
-void print(Course& cou) {
+void print(const Course& cou) {
   cou.print();
 }
 
-void print(Student& stu) {
+void print(const Student& stu) {
   stu.print();
 }
 
-void print(CourseSelection& cs) {
+void print(const CourseSelection& cs) {
   cs.print();
 }
 
 void print(int number) {
   cout<<number<<" ";
+}
+
+void print(IndexByID& index) {
+  print(index.getSelection());
+}
+
+void print(IndexByCode& index) {
+  print(index.getSelection());
 }
 
 string getKey(const Student& stu) {

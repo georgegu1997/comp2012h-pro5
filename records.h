@@ -49,7 +49,7 @@ public:
   static bool isValidGender(const int&);
 
   //formatted output for console
-  void print();
+  void print() const;
 };
 
 class Course {
@@ -84,7 +84,7 @@ public:
   static bool isValidName(const string&);
   static bool isValidCredit(const int&);
 
-  void print();
+  void print() const;
 };
 
 class CourseSelection {
@@ -96,7 +96,7 @@ public:
   CourseSelection();
   ~CourseSelection();
 
-  CourseSelection(Student* , Course* , int);
+  CourseSelection(Student* , Course* , int = UNASSIGNED);
   CourseSelection& operator=(CourseSelection&);
 
   string getStudentID() const;
@@ -119,7 +119,7 @@ public:
 
   static bool isValidExammark(const int&);
 
-  void print();
+  void print() const;
 };
 
 #endif

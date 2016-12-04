@@ -237,12 +237,12 @@ T* DoublyLinkedList<T>::insertAndReturnAddress(const T& item) {
   for (itr = begin(); ; itr++) {
     if(itr == end()) {
       addLast(item);
-      return &(*itr);
+      return &(itr.node->prev->data);
     }else if(*(itr) == item) {
       return NULL;
     }else if(*(itr) > item) {
       itr.insert(item);
-      return &(*itr);
+      return &(itr.node->prev->data);
     }
   }
 }

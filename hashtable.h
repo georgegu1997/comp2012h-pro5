@@ -176,10 +176,9 @@ DoublyLinkedList<T> HashTable<T>::returnAll() {
   DoublyLinkedList<T> result;
   int i;
   for( i = 0; i != m; i++) {
-    DoublyLinkedList<T>* list = &(arr[i]);
-    if(!(list->isEmpty())) {
+    if(!(arr[i].isEmpty())) {
       typename DoublyLinkedList<T>::iterator itr;
-      for (itr = list->begin(); itr != list-> end(); itr++) {
+      for (itr = arr[i].begin(); itr != arr[i].end(); itr++) {
         result.insertInOrder(*itr);
       }
     }
@@ -196,7 +195,7 @@ DoublyLinkedList<T> HashTable<T>::returnByKey(const string& key) {
 
   for(itr = list->begin(); itr != list->end(); itr++) {
     if(*itr == key) {
-      list->insertInOrder(*itr);
+      result.insertInOrder(*itr);
     }
   }
   return result;
@@ -211,6 +210,7 @@ void HashTable<T>::printAll() {
     typename DoublyLinkedList<T>::iterator itr;
     for(itr = list->begin(); itr != list->end(); itr++) {
       print(*itr);
+      cout<<&(*itr)<<endl;
     }
     cout<<endl;
   }

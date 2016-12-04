@@ -1,6 +1,11 @@
 #include "registermanager.h"
+#include "constants.h"
 #include <stdexcept>
+#include <cstring>
+#include <cstdlib>
+
 using std::runtime_error;
+using std::cerr;
 
 RegisterManager::RegisterManager() {
   students = StudentTable(STUDENT_ID_M);
@@ -21,21 +26,33 @@ int RegisterManager::add(const Course& cou) {
 }
 
 int RegisterManager::add(const CourseSelection& cs) {
+  DoublyLinkedList<CourseSelection>::iterator itr;
+
   CourseSelection* address;
   address = selections.insertAndReturnAddress(cs);
+
+  //cout<<address<<endl;
+  //cout<<"selection inserted"<<endl;
   if(address == NULL) {return -1;}
+
   IndexByID id_index(address, cs.getStudentID());
   IndexByCode code_index(address, cs.getCourseCode());
+  //cout<<"index created"<<endl;
   id_indexes.insert(id_index);
   code_indexes.insert(code_index);
+  id_indexes.printAll();
+  code_indexes.printAll();
+
   return 0;
 }
 
 int RegisterManager::deleteStudent(const string& id) {
+  if(!id_indexes.returnByKey(id).isEmpty()) return -2;
   return students.deleteByKey(id);
 }
 
 int RegisterManager::deleteCourse(const string& code){
+  if(!code_indexes.returnByKey(code).isEmpty()) return -2;
   return courses.deleteByKey(code);
 }
 
@@ -119,6 +136,100 @@ int RegisterManager::loadDataFile(ifstream& fin) {
   SelectionTable new_selections;
   IDIndexTable new_id_indexes(STUDENT_ID_M);
   CodeIndexTable new_code_indexes(COURSECODE_M);
+
+  char buffer[256];
+  fin.clear();
+
+  fin.getline(buffer, 256);
+  if(strcmp(buffer, "__student") != 0) {
+    return -17;
+  }
+
+  fin.getline(buffer, 256);
+  while (strcmp(buffer, "__course") != 0) {
+    Student stu;
+    if(stu.setStudentID(string(buffer)) < 0) return -1;
+    fin.getline(buffer, 256);
+    if(stu.setStudentName(string(buffer)) < 0) return -2;
+    fin.getline(buffer, 256);
+    if(stu.setYear(atoi(buffer)) < 0) return -3;
+    fin.getline(buffer, 256);
+    if(stu.setGender(atoi(buffer)) < 0) return -4;
+
+    if(new_students.insert(stu) < 0) return -5;
+
+    fin.getline(buffer, 256);
+    //if(fin.fail()) cout<<"fail bit"<<endl; return -6;
+  }
+
+  fin.getline(buffer, 256);
+  while(strcmp(buffer, "__selection") != 0) {
+    Course cou;
+    if(cou.setCourseCode(string(buffer)) < 0) return -7;
+    fin.getline(buffer, 256);
+    if(cou.setCourseName(string(buffer)) < 0) return -8;
+    fin.getline(buffer, 256);
+    if(cou.setCredit(atoi(buffer)) < 0) return -9;
+
+    if(new_courses.insert(cou) < 0) return -10;
+
+    fin.getline(buffer, 256);
+    if(fin.fail()) return -11;
+  }
+
+  fin.getline(buffer, 256);
+  while(!fin.eof()) {
+    Student* s;
+    Course* c;
+
+    string id(buffer);
+    if(!Student::isValidID(id) || (s = new_students.searchAndAccessPointer(id)) == NULL) return -12;
+
+    fin.getline(buffer, 256);
+    string code(buffer);
+    if(!Course::isValidCode(code) || (c = new_courses.searchAndAccessPointer(code)) == NULL) return -13;
+
+    fin.getline(buffer, 256);
+    int mark = atoi(buffer);
+    if(!CourseSelection::isValidExammark(mark) && mark != UNASSIGNED) return -14;
+
+    CourseSelection cs(s, c, mark);
+
+    CourseSelection* address;
+    address = new_selections.insertAndReturnAddress(cs);
+    if(address == NULL) return -15;
+
+    IndexByID id_index(address, cs.getStudentID());
+    IndexByCode code_index(address, cs.getCourseCode());
+    new_id_indexes.insert(id_index);
+    new_code_indexes.insert(code_index);
+
+
+    fin.getline(buffer, 256);
+    //if(fin.fail()) return -16;
+  }
+
+  students = new_students;
+  courses = new_courses;
+  selections.clear();
+  id_indexes.clear();
+  code_indexes.clear();
+
+  SelectionTable::iterator itr;
+  for(itr = new_selections.begin(); itr !=new_selections.end(); itr++) {
+    Student* s2 = queryStudent(itr->getStudentID());
+    Course* c2 = queryCourse(itr->getCourseCode());
+    CourseSelection cs(s2, c2, itr->getExamMark());
+    CourseSelection* add;
+    add = selections.insertAndReturnAddress(cs);
+
+    IndexByID id_i(add, cs.getStudentID());
+    IndexByCode code_i(add, cs.getCourseCode());
+    id_indexes.insert(id_i);
+    code_indexes.insert(code_i);
+  }
+
+  return 0;
 }
 
 int RegisterManager::saveDataFile(ofstream& fout) {
@@ -152,5 +263,6 @@ int RegisterManager::saveDataFile(ofstream& fout) {
   }
 
   fout.close();
+  return 0;
 
 }

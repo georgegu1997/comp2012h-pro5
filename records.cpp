@@ -16,14 +16,14 @@ Student::Student(const Student& stu) {
   setStudentID(stu.getStudentID());
   setStudentName(stu.getStudentName());
   setYear(stu.getYear());
-  setGender(stu.getYear());
+  setGender(stu.getGender());
 }
 
 Student& Student::operator=(const Student& stu) {
   setStudentID(stu.getStudentID());
   setStudentName(stu.getStudentName());
   setYear(stu.getYear());
-  setGender(stu.getYear());
+  setGender(stu.getGender());
   return (*this);
 }
 
@@ -77,6 +77,7 @@ int Student::setGender(int gender) {
     return -1;
   }else {
     Gender = gender;
+    return 0;
   }
 }
 
@@ -116,7 +117,7 @@ bool Student::isValidGender(const int& gender) {
   return gender == MALE || gender == FEMALE;
 }
 
-void Student::print() {
+void Student::print() const {
   cout<<"Student ID: "<<StudentID<<endl;
   cout<<"Student Name: "<<StudentName<<endl;
   cout<<"Student Year: " <<Year<<endl;
@@ -135,11 +136,13 @@ Course::~Course() {};
 Course::Course(const Course& c) {
   setCourseCode(c.getCourseCode());
   setCourseName(c.getCourseName());
+  setCredit(c.getCredit());
 }
 
 Course& Course::operator=(const Course& c) {
   setCourseCode(c.getCourseCode());
   setCourseName(c.getCourseName());
+  setCredit(c.getCredit());
   return (*this);
 }
 
@@ -216,7 +219,7 @@ bool Course::isValidCredit(const int& credit) {
   return credit <= CREDIT_MAX && credit >= CREDIT_MIN;
 }
 
-void Course::print() {
+void Course::print() const {
   cout<<"Course Code: "<< CourseCode << endl;
   cout<<"Course Name: "<< CourseName << endl;
   cout<<"Course Credit: "<< Credit << endl;
@@ -307,14 +310,14 @@ bool CourseSelection::operator>(const CourseSelection& cs) {
 }
 
 bool CourseSelection::operator==(const CourseSelection& cs) {
-  return *cou == *(cs.getCourse()) && *stu < *(cs.getStudent());
+  return *cou == *(cs.getCourse()) && *stu == *(cs.getStudent());
 }
 
 bool CourseSelection::isValidExammark(const int& mark) {
   return mark <= EXAMMARK_MAX && mark >= EXAMMARK_MIN;
 }
 
-void CourseSelection::print() {
+void CourseSelection::print() const {
   cout<<"Student ID: " <<getStudentID()<<endl;
   cout<<"CourseCode: " <<getCourseCode() <<endl;
   char mark_str[16];

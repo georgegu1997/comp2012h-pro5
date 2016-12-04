@@ -36,12 +36,8 @@ struct IndexByID {
     }
   }
 
-  bool operator>(const IndexByID& index) {
-    return StudentID > index.StudentID;
-  }
-
   bool operator==(const IndexByID& index) {
-    return StudentID == index.StudentID;
+    return selection == index.selection;
   }
 
   bool operator==(CourseSelection* cs) {
@@ -60,7 +56,11 @@ struct IndexByID {
     return StudentID < index.StudentID;
   }
 
-  CourseSelection& operator*() {
+  bool operator>(const IndexByID& index) {
+    return StudentID > index.StudentID;
+  }
+
+  CourseSelection& getSelection() {
     return *(selection);
   }
 };
@@ -78,12 +78,8 @@ struct IndexByCode {
     }
   }
 
-  bool operator>(const IndexByCode& index) {
-    return CourseCode > index.CourseCode;
-  }
-
   bool operator==(const IndexByCode& index) {
-    return CourseCode == index.CourseCode;
+    return selection == index.selection;
   }
 
   bool operator==(CourseSelection* cs) {
@@ -102,20 +98,28 @@ struct IndexByCode {
     return CourseCode < index.CourseCode;
   }
 
-  CourseSelection& operator*() {
+  bool operator>(const IndexByCode& index) {
+    return CourseCode > index.CourseCode;
+  }
+
+  CourseSelection& getSelection() {
     return *(selection);
   }
 };
 
 int IndexCodeHash(const IndexByCode& index);
 
-void print(Course& cou);
+void print(const Course& cou);
 
-void print(Student& stu);
+void print(const Student& stu);
 
-void print(CourseSelection& cs);
+void print(const CourseSelection& cs);
 
 void print(int number);
+
+void print(IndexByID& index);
+
+void print(IndexByCode& index);
 
 string getKey(const Student& stu);
 

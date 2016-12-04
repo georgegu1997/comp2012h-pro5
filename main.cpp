@@ -193,8 +193,10 @@ void StudentManagement() {
     result = rm.deleteStudent(StudentIDInput());
     if(result == 0) {
       cout<<"Deletion of student record successful"<<endl<<endl;
-    }else if(result < 0) {
+    }else if(result == -1) {
       cout<<"Student not exist"<<endl<<endl;
+    }else if(result == -2) {
+      cout<<"There is registration record(s) of this student."<<endl<<endl;
     }
 
     endOfLoop();
@@ -206,7 +208,7 @@ void StudentManagement() {
       cout<<"Student not exist"<<endl<<endl;
     }else {
       cout<<endl;
-      stuPtr->print();
+      print(*stuPtr);
       cout<<endl;
     }
 
@@ -280,8 +282,10 @@ void CourseManagement() {
     result = rm.deleteCourse(CourseCodeInput());
     if(result == 0) {
       cout<<"Deletion of course record successful"<<endl<<endl;
-    }else if(result < 0) {
+    }else if(result == -1) {
       cout<<"Course not exist"<<endl<<endl;
+    }else if(result == -2) {
+      cout<<"There is registration record(s) of this course"<<endl<<endl;
     }
 
     endOfLoop();
@@ -293,7 +297,7 @@ void CourseManagement() {
       cout<<"Course not exist"<<endl<<endl;
     }else {
       cout<<endl;
-      couPtr->print();
+      print(*couPtr);
       cout<<endl;
     }
 
@@ -427,7 +431,7 @@ void CourseRegistration() {
       cout<<"Registration record not exist"<<endl<<endl;
     }else {
       cout<<endl;
-      cs->print();
+      print(*cs);
       cout<<endl;
     }
 
@@ -553,7 +557,16 @@ void FileManagement() {
       return;
     }
 
-    rm.loadDataFile(fin);
+    int result = rm.loadDataFile(fin);
+    if(result < 0) {
+      cout<<"Error code: "<<result<<endl;
+      cout<<"Error: Load data fail (File Corrupted / Incorrect Format)"<<endl<<endl;
+    }else {
+      cout<<"Load data successful!"<<endl<<endl;
+    }
+
+    endOfLoop();
+    return;
   }else if(current_option == 3) {
     return;
   }
@@ -599,7 +612,6 @@ void main_loop() {
 }
 
 int main() {
-
   while(true) {
     main_loop();
   }
