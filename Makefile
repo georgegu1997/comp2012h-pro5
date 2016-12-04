@@ -14,4 +14,4 @@ utility.o: utility.h utility.cpp constants.h records.h
 
 
 clean:
-	rm -f *.o Register *.html *.dat
+	rm -f *.o Register *.html

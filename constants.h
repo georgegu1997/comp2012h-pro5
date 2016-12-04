@@ -14,7 +14,7 @@ const int STUDENT_ID_B = 10;
 const int STUDENT_NAME_MAX = 32;
 const int STUDENT_NAME_MIN = 1;
 
-const int COURSECODE_MAX = 9;
+const int COURSECODE_MAX = 8;
 const int COURSECODE_MIN = 7;
 const int COURSECODE_M = 17;
 const int COURSECODE_B = 36;
@@ -34,6 +34,5 @@ const int EXAMMARK_MIN = 0;
 
 const int YEAR_MAX = 3;
 const int YEAR_MIN = 1;
-
 
 #endif

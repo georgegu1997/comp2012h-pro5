@@ -28,23 +28,29 @@ void reportAllCourses(DoublyLinkedList<Course> courses) {
     "<H2>All Course List</H2>\n"
     "<P>\n"
     "<TABLE cellSpacing=1 cellPadding=1 border=1>\n\n");
-  fprintf(fout,
-    "<TB>\n"
-    "<TD>Course Code</TD>\n"
-    "<TD>Course Name</TD>\n"
-    "<TD>Credit</TD>\n"
-    "</TR>\n\n");
 
-  DoublyLinkedList<Course>::iterator itr;
-
-  for(itr = courses.begin(); itr != courses.end(); itr++) {
+  if(courses.isEmpty()){
     fprintf(fout,
-      "<TR>\n"
-      "<TD>%s</TD>\n"
-      "<TD>%s</TD>\n"
-      "<TD>%d</TD>\n"
-      "</TD>\n\n",
-      itr->getCourseCode().c_str(), itr->getCourseName().c_str(), itr->getCredit());
+      "<p>No Course</p>\n");
+  }else {
+    fprintf(fout,
+      "<TB>\n"
+      "<TD>Course Code</TD>\n"
+      "<TD>Course Name</TD>\n"
+      "<TD>Credit</TD>\n"
+      "</TR>\n\n");
+
+    DoublyLinkedList<Course>::iterator itr;
+
+    for(itr = courses.begin(); itr != courses.end(); itr++) {
+      fprintf(fout,
+        "<TR>\n"
+        "<TD>%s</TD>\n"
+        "<TD>%s</TD>\n"
+        "<TD>%d</TD>\n"
+        "</TD>\n\n",
+        itr->getCourseCode().c_str(), itr->getCourseName().c_str(), itr->getCredit());
+    }
   }
 
   fprintf(fout,
@@ -71,26 +77,32 @@ void reportAllStudents(DoublyLinkedList<Student> students) {
     "<H2>All Students List</H2>\n"
     "<P>\n"
     "<TABLE cellSpacing=1 cellPadding=1 border=1>\n\n");
-  fprintf(fout,
-    "<TB>\n"
-    "<TD>Student ID</TD>\n"
-    "<TD>Studnet Name</TD>\n"
-    "<TD>Year</TD>\n"
-    "<TD>Gender</TD>\n"
-    "</TR>\n\n");
 
-  DoublyLinkedList<Student>::iterator itr;
-
-  for(itr = students.begin(); itr != students.end(); itr++) {
+  if(students.isEmpty()) {
     fprintf(fout,
-      "<TR>\n"
-      "<TD>%s</TD>\n"
-      "<TD>%s</TD>\n"
-      "<TD>%d</TD>\n"
-      "<TD>%s</TD>\n"
-      "</TD>\n\n",
-      itr->getStudentID().c_str(), itr->getStudentName().c_str(), itr->getYear(),
-      itr->getGender()==MALE? "Male":"Female");
+      "<p>No Student</p>\n");
+  }else {
+    fprintf(fout,
+      "<TB>\n"
+      "<TD>Student ID</TD>\n"
+      "<TD>Studnet Name</TD>\n"
+      "<TD>Year</TD>\n"
+      "<TD>Gender</TD>\n"
+      "</TR>\n\n");
+
+    DoublyLinkedList<Student>::iterator itr;
+
+    for(itr = students.begin(); itr != students.end(); itr++) {
+      fprintf(fout,
+        "<TR>\n"
+        "<TD>%s</TD>\n"
+        "<TD>%s</TD>\n"
+        "<TD>%d</TD>\n"
+        "<TD>%s</TD>\n"
+        "</TD>\n\n",
+        itr->getStudentID().c_str(), itr->getStudentName().c_str(), itr->getYear(),
+        itr->getGender()==MALE? "Male":"Female");
+    }
   }
 
   fprintf(fout,

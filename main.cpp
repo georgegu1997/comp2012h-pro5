@@ -102,7 +102,7 @@ int CourseCreditsInput() {
   int number;
   getline(cin, str);
   number = atoi(str.c_str());
-  while(!Course::isValidCredit(number)) {
+  while(!Course::isValidCredit(number) && str.length() != 0) {
     cout<<"Invalid input, re-enter again [course credit]: ";
     getline(cin, str);
     number = atoi(str.c_str());
@@ -157,8 +157,16 @@ void StudentManagement() {
 
   if(current_option == 1) {
     Student stu;
+    string id;
 
-    stu.setStudentID(StudentIDInput());
+    id = StudentIDInput();
+    if(rm.queryStudent(id) != NULL) {
+      cout<<"Error: The Student ID has already existed"<<endl<<endl;
+      endOfLoop();
+      return;
+    }
+
+    stu.setStudentID(id);
 
     cout<<"Enter the student name: ";
     stu.setStudentName(StudentNameInput());
@@ -172,7 +180,7 @@ void StudentManagement() {
     if(stu.isValid() && rm.add(stu) == 0){
       cout<<"Creation of student record successful"<<endl<<endl;
     }else {
-      cout<<"Creation of student record fail"<<endl<<endl;
+      cout<<"Error: Creation of student record fail"<<endl<<endl;
     }
 
     endOfLoop();
@@ -182,7 +190,7 @@ void StudentManagement() {
     Student* stuPtr = rm.queryStudent(StudentIDInput());
 
     if(stuPtr == NULL) {
-      cout<<"Student not exist"<<endl<<endl;
+      cout<<"Error: Student not exist"<<endl<<endl;
 
     }else{
       cout<<"Enter the student name ["<<stuPtr->getStudentName()<<"]: ";
@@ -209,9 +217,9 @@ void StudentManagement() {
     if(result == 0) {
       cout<<"Deletion of student record successful"<<endl<<endl;
     }else if(result == -1) {
-      cout<<"Student not exist"<<endl<<endl;
+      cout<<"Error: Student not exist"<<endl<<endl;
     }else if(result == -2) {
-      cout<<"There is registration record(s) of this student."<<endl<<endl;
+      cout<<"Error: There is registration record(s) of this student."<<endl<<endl;
     }
 
     endOfLoop();
@@ -258,8 +266,16 @@ void CourseManagement() {
 
   if(current_option == 1) {
     Course cou;
+    string code;
 
-    cou.setCourseCode(CourseCodeInput());
+    code = CourseCodeInput();
+    if(rm.queryCourse(code) != NULL) {
+      cout<<"Error: the course has already existed"<<endl<<endl;
+      endOfLoop();
+      return;
+    }
+
+    cou.setCourseCode(code);
 
     cout<<"Enter the course name: ";
     cou.setCourseName(CourseNameInput());
@@ -270,7 +286,7 @@ void CourseManagement() {
     if(cou.isValid() && rm.add(cou) == 0) {
       cout<<"Creation of course record successful"<<endl<<endl;
     }else {
-      cout<<"Creation of course record fail"<<endl<<endl;
+      cout<<"Error: Creation of course record fail"<<endl<<endl;
     }
 
     endOfLoop();
@@ -280,7 +296,7 @@ void CourseManagement() {
     couPtr = rm.queryCourse(CourseCodeInput());
 
     if(couPtr == NULL) {
-      cout<<"Course not exist"<<endl<<endl;
+      cout<<"Error: Course not exist"<<endl<<endl;
     }else {
       cout<<"Enter the course name["<<couPtr->getCourseName()<<"]: ";
       couPtr->setCourseName(CourseNameInput());
@@ -298,9 +314,9 @@ void CourseManagement() {
     if(result == 0) {
       cout<<"Deletion of course record successful"<<endl<<endl;
     }else if(result == -1) {
-      cout<<"Course not exist"<<endl<<endl;
+      cout<<"Error: Course not exist"<<endl<<endl;
     }else if(result == -2) {
-      cout<<"There is registration record(s) of this course"<<endl<<endl;
+      cout<<"Error: There is registration record(s) of this course"<<endl<<endl;
     }
 
     endOfLoop();
@@ -309,7 +325,7 @@ void CourseManagement() {
     Course* couPtr;
     couPtr = rm.queryCourse(CourseCodeInput());
     if(couPtr == NULL) {
-      cout<<"Course not exist"<<endl<<endl;
+      cout<<"Error: Course not exist"<<endl<<endl;
     }else {
       cout<<endl;
       print(*couPtr);
@@ -348,14 +364,14 @@ void CourseRegistration() {
 
     Student* stu = rm.queryStudent(StudentIDInput());
     if(stu == NULL) {
-      cout<<"Student not exist"<<endl<<endl;
+      cout<<"Error: Student not exist"<<endl<<endl;
       endOfLoop();
       return;
     }
 
     Course* cou = rm.queryCourse(CourseCodeInput());
     if(cou == NULL) {
-      cout<<"Course not exist"<<endl<<endl;
+      cout<<"Error: Course not exist"<<endl<<endl;
       endOfLoop();
       return;
     }
@@ -364,7 +380,7 @@ void CourseRegistration() {
     int result = rm.add(cs);
 
     if(result < 0) {
-      cout<<"The student already registered the course"<<endl<<endl;
+      cout<<"Error: The student already registered the course"<<endl<<endl;
     }else {
       cout<<"Add course successful"<<endl<<endl;
     }
@@ -374,14 +390,14 @@ void CourseRegistration() {
   }else if(current_option == 2) {
     Student* stu = rm.queryStudent(StudentIDInput());
     if(stu == NULL) {
-      cout<<"Student not exist"<<endl<<endl;
+      cout<<"Eror: Student not exist"<<endl<<endl;
       endOfLoop();
       return;
     }
 
     Course* cou = rm.queryCourse(CourseCodeInput());
     if(cou == NULL) {
-      cout<<"Course not exist"<<endl<<endl;
+      cout<<"Error: Course not exist"<<endl<<endl;
       endOfLoop();
       return;
     }
@@ -390,7 +406,7 @@ void CourseRegistration() {
     if(result == 0) {
       cout<<"Drop course successful"<<endl<<endl;
     }else {
-      cout<<"The registration record not exist"<<endl<<endl;
+      cout<<"Error: The registration record not exist"<<endl<<endl;
     }
 
     endOfLoop();
@@ -400,21 +416,21 @@ void CourseRegistration() {
 
     Student* stu = rm.queryStudent(StudentIDInput());
     if(stu == NULL) {
-      cout<<"Student not exist"<<endl<<endl;
+      cout<<"Error: Student not exist"<<endl<<endl;
       endOfLoop();
       return;
     }
 
     Course* cou = rm.queryCourse(CourseCodeInput());
     if(cou == NULL) {
-      cout<<"Course not exist"<<endl<<endl;
+      cout<<"Error: Course not exist"<<endl<<endl;
       endOfLoop();
       return;
     }
 
     CourseSelection* cs = rm.querySelection(stu->getStudentID(), cou->getCourseCode());
     if(cs == NULL) {
-      cout<<"Registration record not exist"<<endl<<endl;
+      cout<<"Error: Registration record not exist"<<endl<<endl;
     }else {
       char mark_str[16];
       sprintf(mark_str, "%d", cs->getExamMark());
@@ -429,21 +445,21 @@ void CourseRegistration() {
 
     Student* stu = rm.queryStudent(StudentIDInput());
     if(stu == NULL) {
-      cout<<"Student not exist"<<endl<<endl;
+      cout<<"Error: Student not exist"<<endl<<endl;
       endOfLoop();
       return;
     }
 
     Course* cou = rm.queryCourse(CourseCodeInput());
     if(cou == NULL) {
-      cout<<"Course not exist"<<endl<<endl;
+      cout<<"Error: Course not exist"<<endl<<endl;
       endOfLoop();
       return;
     }
 
     CourseSelection* cs = rm.querySelection(stu->getStudentID(), cou->getCourseCode());
     if(cs == NULL) {
-      cout<<"Registration record not exist"<<endl<<endl;
+      cout<<"Error: Registration record not exist"<<endl<<endl;
     }else {
       cout<<endl;
       print(*cs);

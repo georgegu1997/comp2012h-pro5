@@ -168,7 +168,7 @@ int Course::getCredit() const {
 int Course::setCourseCode(const string& code) {
   if (code.length() < COURSECODE_MIN || code.length() > COURSECODE_MAX) {
     return -1;
-  }else if(!regex_match(code, regex("[[:upper:]]{4}[[:d:]]+[[:upper:]]?"))) {
+  }else if(!regex_match(code, regex("[[:upper:]]{4}[[:d:][:upper:]]+"))) {
     return -2;
   }else {
     CourseCode = code;
@@ -215,7 +215,7 @@ bool Course::isValid() const {
 }
 
 bool Course::isValidCode(const string& code) {
-  return code.length() <= COURSECODE_MAX && code.length() <= COURSECODE_MIN && regex_match(code, regex("[[:upper:]]{4}[[:d:]]+[[:upper:]]?"));
+  return code.length() <= COURSECODE_MAX && code.length() >= COURSECODE_MIN && regex_match(code, regex("[[:upper:]]{4}[[:d:][:upper:]]+"));
 }
 
 bool Course::isValidName(const string& name) {
