@@ -8,10 +8,7 @@
 // need to add "-std=c++11" or "-std=gnu++11" to the complie command when compiling
 
 #include "records.h"
-#include <regex>
 #include <iostream>
-using std::regex;
-using std::regex_match;
 using std::cout;
 using std::endl;
 
@@ -51,10 +48,8 @@ int Student::getGender() const {
 }
 
 int Student::setStudentID(const string& id) {
-  if(id.size() != STUDENT_ID_LENGTH) {
+  if(!isValidID(id)) {
     return -1;
-  }else if(!regex_match(id, regex("[0-9]+"))) {
-    return -2;
   }else {
     StudentID = id;
     return 0;
@@ -109,7 +104,15 @@ bool Student::isValid() const {
 }
 
 bool Student::isValidID(const string& id) {
-  return id.size() == STUDENT_ID_LENGTH && regex_match(id, regex("[0-9]+"));
+  if(id.length() != STUDENT_ID_LENGTH) {
+    return false;
+  }
+  
+  std::size_t found = id.find_first_not_of("0123456789");
+  if(found != std::string::npos) {
+    return false;
+  }
+  return true;
 }
 
 bool Student::isValidName(const string& name) {
@@ -166,10 +169,8 @@ int Course::getCredit() const {
 }
 
 int Course::setCourseCode(const string& code) {
-  if (code.length() < COURSECODE_MIN || code.length() > COURSECODE_MAX) {
+  if (!isValidCode(code)) {
     return -1;
-  }else if(!regex_match(code, regex("[[:upper:]]{4}[[:d:][:upper:]]+"))) {
-    return -2;
   }else {
     CourseCode = code;
     return 0;
@@ -215,7 +216,16 @@ bool Course::isValid() const {
 }
 
 bool Course::isValidCode(const string& code) {
-  return code.length() <= COURSECODE_MAX && code.length() >= COURSECODE_MIN && regex_match(code, regex("[[:upper:]]{4}[[:d:][:upper:]]+"));
+  if(code.length() < COURSECODE_MIN || code.length() > COURSECODE_MAX) {
+    return false;
+  }
+  if(code.find_first_not_of("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ") != std::string::npos) {
+    return false;
+  }
+  if(code.find_first_not_of("ABCDEFGHIJKLMNOPQRSTUVWXYZ") <= 3) {
+    return false;
+  }
+  return true;
 }
 
 bool Course::isValidName(const string& name) {
