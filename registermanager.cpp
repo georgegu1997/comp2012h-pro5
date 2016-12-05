@@ -47,8 +47,6 @@ int RegisterManager::add(const CourseSelection& cs) {
   //cout<<"index created"<<endl;
   id_indexes.insert(id_index);
   code_indexes.insert(code_index);
-  id_indexes.printAll();
-  code_indexes.printAll();
 
   return 0;
 }
