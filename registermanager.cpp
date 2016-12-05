@@ -233,6 +233,8 @@ int RegisterManager::loadDataFile(ifstream& fin) {
     id_indexes.insert(id_i);
     code_indexes.insert(code_i);
   }
+  
+  fin.close();
 
   return 0;
 }

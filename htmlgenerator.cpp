@@ -34,7 +34,7 @@ void reportAllCourses(DoublyLinkedList<Course> courses) {
       "<p>No Course</p>\n");
   }else {
     fprintf(fout,
-      "<TB>\n"
+      "<TR>\n"
       "<TD>Course Code</TD>\n"
       "<TD>Course Name</TD>\n"
       "<TD>Credit</TD>\n"
@@ -48,7 +48,7 @@ void reportAllCourses(DoublyLinkedList<Course> courses) {
         "<TD>%s</TD>\n"
         "<TD>%s</TD>\n"
         "<TD>%d</TD>\n"
-        "</TD>\n\n",
+        "</TR>\n\n",
         itr->getCourseCode().c_str(), itr->getCourseName().c_str(), itr->getCredit());
     }
   }
@@ -83,9 +83,9 @@ void reportAllStudents(DoublyLinkedList<Student> students) {
       "<p>No Student</p>\n");
   }else {
     fprintf(fout,
-      "<TB>\n"
+      "<TR>\n"
       "<TD>Student ID</TD>\n"
-      "<TD>Studnet Name</TD>\n"
+      "<TD>Student Name</TD>\n"
       "<TD>Year</TD>\n"
       "<TD>Gender</TD>\n"
       "</TR>\n\n");
@@ -99,7 +99,7 @@ void reportAllStudents(DoublyLinkedList<Student> students) {
         "<TD>%s</TD>\n"
         "<TD>%d</TD>\n"
         "<TD>%s</TD>\n"
-        "</TD>\n\n",
+        "</TR>\n\n",
         itr->getStudentID().c_str(), itr->getStudentName().c_str(), itr->getYear(),
         itr->getGender()==MALE? "Male":"Female");
     }
@@ -140,7 +140,7 @@ void reportStudentsOfCourse(const Course& course, DoublyLinkedList<CourseSelecti
       "<p>No Student took this course.</p>");
   }else {
     fprintf(fout,
-      "<TB>\n"
+      "<TR>\n"
       "<TD>Student ID</TD>\n"
       "<TD>Studnet Name</TD>\n"
       "<TD>Year</TD>\n"
@@ -161,7 +161,7 @@ void reportStudentsOfCourse(const Course& course, DoublyLinkedList<CourseSelecti
         "<TD>%d</TD>\n"
         "<TD>%s</TD>\n"
         "<TD>%s</TD>\n"
-        "</TD>\n\n",
+        "</TR>\n\n",
         itr->getStudent()->getStudentID().c_str(),
         itr->getStudent()->getStudentName().c_str(),
         itr->getStudent()->getYear(),
@@ -205,7 +205,7 @@ void reportCoursesOfStudent(const Student& student, DoublyLinkedList<CourseSelec
       "<p>No course taken.</p>");
   }else {
     fprintf(fout,
-      "<TB>\n"
+      "<TR>\n"
       "<TD>Course code</TD>\n"
       "<TD>Course Name</TD>\n"
       "<TD>Credit</TD>\n"
@@ -224,7 +224,7 @@ void reportCoursesOfStudent(const Student& student, DoublyLinkedList<CourseSelec
         "<TD>%s</TD>\n"
         "<TD>%d</TD>\n"
         "<TD>%s</TD>\n"
-        "</TD>\n\n",
+        "</TR>\n\n",
         itr->getCourse()->getCourseCode().c_str(),
         itr->getCourse()->getCourseName().c_str(),
         itr->getCourse()->getCredit(),
