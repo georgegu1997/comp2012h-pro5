@@ -142,10 +142,10 @@ void reportStudentsOfCourse(const Course& course, DoublyLinkedList<CourseSelecti
     fprintf(fout,
       "<TR>\n"
       "<TD>Student ID</TD>\n"
-      "<TD>Studnet Name</TD>\n"
+      "<TD>Student Name</TD>\n"
       "<TD>Year</TD>\n"
       "<TD>Gender</TD>\n"
-      "<TD>Exma Mark</TD>\n"
+      "<TD>Exam Mark</TD>\n"
       "</TR>\n\n");
 
     DoublyLinkedList<CourseSelection>::iterator itr;
@@ -206,7 +206,7 @@ void reportCoursesOfStudent(const Student& student, DoublyLinkedList<CourseSelec
   }else {
     fprintf(fout,
       "<TR>\n"
-      "<TD>Course code</TD>\n"
+      "<TD>Course Code</TD>\n"
       "<TD>Course Name</TD>\n"
       "<TD>Credit</TD>\n"
       "<TD>Exam Mark</TD>\n"
